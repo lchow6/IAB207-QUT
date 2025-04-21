@@ -1,0 +1,295 @@
+
+
+.btn-login {
+    background-color: #000000;
+    border-color:none;
+    height: 50px;
+    width: 130px;
+    font-weight: bold;
+  }
+
+  .btn-navcreateevent {
+    background-color: #000000;
+    border-color:none;
+    height: 50px;
+    width: 130px;
+    font-weight: bold;
+  }
+
+
+.navbar-brand {
+    color: white; 
+    font-size: 1.5rem; 
+}
+.navbar-nav .nav-link {
+  color: white ; 
+  font-size: 1.2rem;
+}
+
+
+.btn-createevent{
+  background-color: #ffffff;
+  color: #2600ff;
+  border-color:none;
+  height: 50px;
+  width: 110px;
+}
+
+.card {
+  border-radius: 10px;
+}
+
+.card:hover {
+  transform: translateY(-5px); 
+  box-shadow: 0 8px 15px #000000; 
+}
+
+.card-title {
+  font-size: 1.25rem; 
+}
+
+.card-text {
+  font-size: 0.9rem; 
+}
+
+/* Carousel */
+.carousel-inner img {
+  object-fit: fill; 
+  height: 400px; 
+  width: 100%; 
+  border-radius: 25px; 
+}
+
+/* Hero Section */
+.hero-section {
+  background-image: url('../../img/background.jpg'); 
+  background-size: cover; 
+  background-position: center; 
+  height: 100vh; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff; 
+  text-shadow: 2px 2px 4px #000000; 
+}
+
+/* hero configuration */
+.hero-section h1 {
+  font-size: 3rem; 
+}
+
+.hero-section p {
+  font-size: 1.25rem;
+  margin-top: 1.6rem;
+}
+
+/* Form Customization */
+.create-event-container {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px #00000020;
+}
+
+
+.row.g-3 {
+  gap: 20px;
+}
+
+.status-label {
+  margin-left: 70px; 
+}
+
+
+/*current event cards*/
+.currentevent-container{
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px; 
+  padding: 10px;
+  
+}
+
+/*past event cards*/
+.pastevent-container{
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px; 
+  padding: 10px; 
+  
+}
+
+/* Warning badge*/
+.badge.bg-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+
+.card {
+  transition: transform 0.3s ease-in-out;
+  border-radius: 16px;
+}
+.card:hover {
+  transform: scale(1.02);
+}
+.card-title {
+  font-family: 'Poppins', sans-serif;
+}
+.btn-primary {
+  background-color: #4b0082;
+  border: none;
+  font-weight: bold
+}
+
+.card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: fill; 
+}
+
+.selecttypedrop{
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.dropdown-menu-homepage{
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* EVENT FORM*/
+/* Event Form Container */
+.create-event-container {
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px #000000;
+  border-radius: 8px;
+}
+
+/* Input and Textarea Styling */
+.form-control {
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  padding: 10px;
+}
+
+
+  /* form Labels */
+.form-label {
+  font-weight: 600;
+  color: #333333;
+}
+
+/* Dropdown Styles */
+.dropdown-toggle {
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.dropdown-menu {
+  border-radius: 6px;
+  box-shadow: 0 8px 16px #000000;
+}
+
+/* Dropdown Item config */
+.dropdown-item {
+  font-size: 14px;
+  padding: 10px;
+}
+
+/* File Upload */
+.form-control[type="file"] {
+  padding: 5px;
+}
+
+.btn-choosestatus{
+  font-weight: bold;
+}
+
+/* VIEW EVENT SECTION */
+.rounded-circle-view {
+  width: 100px;                  
+  height: 100px;                 
+  border-radius: 50%;            
+  border: 5px solid #00e5ff;    
+  object-fit: contain;             
+}
+
+
+.event-creator-details {
+  display: flex; 
+  flex-direction: column;
+  gap: 1px; 
+}
+
+.btn-outline-primary-contact {
+  background-color: #ffffff; 
+  border: 2px solid #4b0082; 
+  color: #4b0082; 
+  font-weight: bold; 
+  padding: 10px 20px; 
+  border-radius: 6px; 
+  transition: all 0.3s ease; 
+}
+
+.btn-primary-subscribe{
+  background-color: #4b0082; 
+  border: 2px solid #4b0082; 
+  color: #ffffff; 
+  font-weight: bold; 
+  padding: 10px 15px; 
+  border-radius: 6px; 
+  transition: all 0.3s ease; 
+}
+
+.event-creator-actions {
+  display: flex; 
+  gap: 10px; 
+  align-items: center; 
+}
+
+.rounded-circle-comment {
+  width: 50px;                   
+  height: 50px;                
+  border-radius: 50%;            
+  object-fit: fill;             
+}
+
+
+.username-comment {
+  width: 300px; 
+  max-width: 100%; 
+}
+
+/* EVENT HISTORY */
+.nav-tabs {
+  border-bottom: 2px solid #dee2e6;
+}
+
+.nav-tabs .nav-link {
+  font-weight: 500;
+  border: none;
+  margin-right: 5px;
+  border-radius: 5px 5px 0 0;
+}
+
+.nav-tabs .nav-link:hover {
+  border: none;
+  background-color: #00e5ff;
+}
+
+.nav-tabs .nav-link.active {
+  font-weight: 600;
+}
+
+body {
+  font-family: system-ui, "Segoe UI", Helvetica, Arial, sans-serif, 
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.6;
+}
+

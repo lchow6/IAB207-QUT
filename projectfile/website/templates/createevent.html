@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create Event</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="static/style/style.css">
+  </head>
+  <header>
+    <header>
+        <nav class="navbar navbar-expand-lg shadow-lg p-3 border-bottom border-white" style="background-color: #17a5d5;">
+          <div class="container-fluid">
+            <a class="navbar-brand text-white fw-bold" href="index.html">
+              <img src="img/logo.png" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
+              CorporateEvents
+            </a>
+            
+            <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+      
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="#">Contact Us</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Others
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="eventhistory.html">Booking History</a></li>
+                  </ul>
+                </li>
+              </ul>
+      
+              <div class="d-flex">
+                <a href="createevent.html">
+                  <button type="button" class="btn btn-outline-light me-2 btn-navcreateevent">Create Event</button>
+                </a>
+                <button type="button" class="btn btn-outline-light me-2 btn-login">Login</button>
+                <button type="button" class="btn btn-primary">Sign Up</button>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+
+  <body>
+    <main>
+
+      <div class="container mt-4"> 
+        <div class="row mb-2">
+          <div class="col-12 createevent-back-button-container">
+            <a href="./index.html" class="btn btn-primary">Back</a>
+          </div>
+        </div>
+      
+        <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+          <div class="row w-100">
+            <!-- Form Container -->
+            <div class="col-md-8 mx-auto">
+              <div class="create-event-container p-4 shadow rounded bg-white">
+                <!-- Event Name -->
+                <div class="mb-3">
+                  <label for="exampleFormControlInput1" class="form-label">Event Name</label>
+                  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name of the event">
+                </div>
+        
+                <!-- Event Description -->
+                <div class="mb-3">
+                  <label for="exampleFormControlTextarea1" class="form-label">Event Description</label>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+        
+                <!-- Event Type -->
+                <div class="mb-3">
+                  <label for="eventType" class="form-label">Event Type</label>
+                  <select class="form-select" id="eventType">
+                    <option selected>Choose event type</option>
+                    <option value="Seminar">Seminar</option>
+                    <option value="Conference">Conference</option>
+                    <option value="Webinar">Webinar</option>
+                    <option value="Networking">Networking</option>
+                  </select>
+                </div>
+        
+                <!-- Check-In and Check-Out Dates -->
+                <div class="d-flex row g-3 mb-3">
+                  <div class="d-flex justify-content-between mb-1">
+                    <div class="col-md-5">
+                      <label for="checkInDate" class="form-label">Check-In Date</label>
+                      <input type="date" class="form-control" id="checkInDate">
+                    </div>
+                    <div class="col-md-5">
+                      <label for="checkInTime" class="form-label">Check-In Time</label>
+                      <input type="time" class="form-control" id="checkInTime">
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <div class="col-md-5">
+                      <label for="checkOutDate" class="form-label">Check-Out Date</label>
+                      <input type="date" class="form-control" id="checkOutDate">
+                    </div>
+                    <div class="col-md-5">
+                      <label for="checkOutTime" class="form-label">Check-Out Time</label>
+                      <input type="time" class="form-control" id="checkOutTime">
+                    </div>
+                  </div>
+
+                </div>
+        
+                <!-- Status Dropdown Box -->
+                <div class="status-container d-flex align-items-center gap-3 mb-3">
+                  <label class="form-label fw-bold">Status:</label>
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle btn-choosestatus" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Choose Status
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#"><span class="badge text-bg-success">OPEN</span></a></li>
+                      <li><a class="dropdown-item" href="#"><span class="badge text-bg-danger">CANCELLED</span></a></li>
+                      <li><a class="dropdown-item" href="#"><span class="badge text-bg-secondary">INACTIVE</span></a></li>
+                      <li><a class="dropdown-item" href="#"><span class="badge text-bg-warning">SOLD-OUT</span></a></li>
+                    </ul>
+                  </div>
+                </div>
+        
+                <!-- File Upload -->
+                <div class="mb-3">
+                  <label for="formFileMultiple" class="form-label">Upload files</label>
+                  <input class="form-control" type="file" id="formFileMultiple" multiple>
+                </div>
+        
+                <!-- Submit Button -->
+                <div class="text-end mt-4">
+                  <button type="submit" class="btn btn-primary">Create Event</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </main>
+  </body>
