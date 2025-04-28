@@ -13,10 +13,10 @@
     <link rel="stylesheet" href="static/style/style.css"> 
 </head>
 <header>
-  <nav class="navbar navbar-expand-lg shadow-lg p-3 border-bottom border-white" style="background-color: #17a5d5;">
+  <nav class="navbar navbar-expand-lg shadow-lg p-2 border-bottom border-white" style="background-color: #17a5d5;">
     <div class="container-fluid">
-      <a class="navbar-brand text-white fw-bold" href="index.html">
-        <img src="img/logo.png" alt="Logo.png" width="40" height="40" class="d-inline-block align-text-top">
+      <a class="navbar-brand text-white fw-bold d-flex align-items-center"href="{{ url_for('main.index') }}">
+        <img src="{{ url_for('static', filename='img/logo.png')}}" alt="Logo" width="40" height="40" class="me-2">
         CorporateEvents
       </a>
       
@@ -27,30 +27,35 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
+            <a class="nav-link" href="{{ url_for('main.create_event') }}">Create Event</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">About</a>
+            <a class="nav-link" href="{{ url_for('main.user') }}">User Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">Contact Us</a>
+            <a class="nav-link" href="{{ url_for('main.event_history') }}">Event History</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Others
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="eventhistory.html">Booking History</a></li>
-            </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('main.view_event') }}">View Event</a>
           </li>
         </ul>
 
-        <div class="d-flex">
-          <a href="createevent.html">
-            <button type="button" class="btn btn-outline-light me-2 btn-navcreateevent">Create Event</button>
+        <div class="d-flex ">
+          <a href="{{ url_for('main.create_event') }}" 
+            class="btn btn-outline-light me-2 btn-navcreateevent d-flex justify-content-center align-items-center" 
+            role="button">
+            Create Event
           </a>
-          <button type="button" class="btn btn-outline-light me-2 btn-login">Login</button>
-          <button type="button" class="btn btn-primary">Sign Up</button>
+          <a href="{{ url_for('main.user') }}" 
+            class="btn btn-outline-light me-2 btn-login d-flex justify-content-center align-items-center" 
+            role="button">
+            Login
+          </a>
+          <a href="{{ url_for('main.user') }}" 
+            class="btn btn-primary btn-login d-flex justify-content-center align-items-center" 
+            role="button">
+            Sign Up
+          </a>
         </div>
       </div>
     </div>

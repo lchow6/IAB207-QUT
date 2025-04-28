@@ -1,20 +1,17 @@
 
 
-.btn-login {
-    background-color: #000000;
-    border-color:none;
-    height: 50px;
-    width: 130px;
-    font-weight: bold;
-  }
+.btn-login, .btn-navcreateevent {
+  background-color: #000000;
+  border: none; /* Fix border */
+  height: 50px;
+  width: 130px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .btn-navcreateevent {
-    background-color: #000000;
-    border-color:none;
-    height: 50px;
-    width: 130px;
-    font-weight: bold;
-  }
+
 
 
 .navbar-brand {
