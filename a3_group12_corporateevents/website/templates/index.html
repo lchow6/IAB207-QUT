@@ -36,23 +36,40 @@
           </li>
         </ul>
 
-        <div class="d-flex ">
+        <div class="d-flex">
           <a href="{{ url_for('main.create_event') }}" 
             class="btn btn-outline-light me-2 btn-navcreateevent d-flex justify-content-center align-items-center" 
             role="button">
             Create Event
           </a>
-          <a href="{{ url_for('main.user') }}" 
-            class="btn btn-outline-light me-2 btn-login d-flex justify-content-center align-items-center" 
-            role="button">
-            Login
-          </a>
-          <a href="{{ url_for('main.user') }}" 
+          
+          <div class="dropdown me-2">
+            <button type="button" class="btn btn-outline-light btn-login" id="loginDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              Login
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end p-4" aria-labelledby="loginDropdown" style="min-width: 250px;">
+              <li>
+                <form>
+                  <div class="mb-3">
+                    <label for="dropdownUsername" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="dropdownUsername" placeholder="Enter username" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="dropdownPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="dropdownPassword" placeholder="Enter password" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+          <a href="{{ url_for('auth.register') }}" 
             class="btn btn-primary btn-login d-flex justify-content-center align-items-center" 
             role="button">
             Sign Up
           </a>
-        </div>
+
+       
       </div>
     </div>
   </nav>

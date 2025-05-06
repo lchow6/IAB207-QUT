@@ -55,48 +55,37 @@
 
 <body style="background-color: #ffffff;"> 
   <main>
-
     <div class="container mt-5 accountregistration-form">
       <h2 class="mb-4">Account Registration Form</h2>
-      <form>
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <label for="firstName" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="firstName" placeholder="Enter first name" required>
+        <form method="POST" action="{{ url_for('auth.register') }}">
+          {{ form.hidden_tag() }}
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              {{ form.user_name.label(class="form-label") }}
+              {{ form.user_name(class="form-control", placeholder="Enter user name") }}
+            </div>
+            <div class="col-md-6">
+              {{ form.email.label(class="form-label") }}
+              {{ form.email(class="form-control", placeholder="Enter email") }}
+            </div>
           </div>
-          <div class="col-md-6">
-            <label for="surname" class="form-label">Surname</label>
-            <input type="text" class="form-control" id="surname" placeholder="Enter surname" required>
+        
+          <div class="mb-3">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control", placeholder="Enter password") }}
           </div>
-        </div>
-  
-        <div class="mb-3">
-          <label for="email" class="form-label">Email address</label>
-          <input type="email" class="form-control" id="email" placeholder="Enter email" required>
-        </div>
-  
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="Enter password" required>
-        </div>
-  
-        <div class="mb-3">
-          <label for="contactNumber" class="form-label">Contact Number</label>
-          <input type="tel" class="form-control" id="contactNumber" placeholder="Enter contact number" required>
-        </div>
-  
-        <div class="mb-3">
-          <label for="streetAddress" class="form-label">Street Address</label>
-          <input type="text" class="form-control" id="streetAddress" placeholder="Enter street address" required>
-        </div>
-  
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </div>
-
-
-  </main>
-</body>
+        
+          <div class="mb-3">
+            {{ form.confirm.label(class="form-label") }}
+            {{ form.confirm(class="form-control", placeholder="Confirm password") }}
+          </div>
+        
+          {{ form.submit(class="btn btn-primary") }}
+        </form>      
+      </div>
+    </main>
+  </body>
 
 
 

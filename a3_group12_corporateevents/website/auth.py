@@ -32,3 +32,28 @@ def login():
         else:
             flash(error)
     return render_template('user.html', form=login_form, heading='Login')
+
+
+@auth_bp.route('/register', methods=['GET', 'POST'])
+def register():
+    print("Register route reached")
+    form = RegisterForm()
+    if form.validate_on_submit():
+        # Check if user already exists
+        existing_user = User.query.filter_by(email=form.email.data).first()
+        if existing_user:
+            flash("Email already registered.")
+            return redirect(url_for('auth.register'))
+
+        # Create new user
+        new_user = User(
+            name=form.user_name.data,
+            email=form.email.data,
+            password_hash=generate_password_hash(form.password.data)
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        flash("Registration successful. Please log in.")
+        return redirect(url_for('auth.login'))
+
+    return render_template("registration.html", form=form)
