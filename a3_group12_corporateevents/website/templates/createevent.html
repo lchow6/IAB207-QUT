@@ -75,86 +75,74 @@
           <div class="row w-100">
             <!-- Form Container -->
             <div class="col-md-8 mx-auto">
-              <div class="create-event-container p-4 shadow rounded bg-white">
-                <!-- Event Name -->
-                <div class="mb-3">
-                  <label for="exampleFormControlInput1" class="form-label">Event Name</label>
-                  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name of the event">
-                </div>
-        
-                <!-- Event Description -->
-                <div class="mb-3">
-                  <label for="exampleFormControlTextarea1" class="form-label">Event Description</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div>
-        
-                <!-- Event Type -->
-                <div class="mb-3">
-                  <label for="eventType" class="form-label">Event Type</label>
-                  <select class="form-select" id="eventType">
-                    <option selected>Choose event type</option>
-                    <option value="Seminar">Seminar</option>
-                    <option value="Conference">Conference</option>
-                    <option value="Webinar">Webinar</option>
-                    <option value="Networking">Networking</option>
-                  </select>
-                </div>
-        
-                <!-- Check-In and Check-Out Dates -->
-                <div class="d-flex row g-3 mb-3">
-                  <div class="d-flex justify-content-between mb-1">
-                    <div class="col-md-5">
-                      <label for="checkInDate" class="form-label">Check-In Date</label>
-                      <input type="date" class="form-control" id="checkInDate">
-                    </div>
-                    <div class="col-md-5">
-                      <label for="checkInTime" class="form-label">Check-In Time</label>
-                      <input type="time" class="form-control" id="checkInTime">
-                    </div>
+              <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <div class="create-event-container p-4 shadow rounded bg-white">
+
+                  <!-- Event Name -->
+                  <div class="mb-3">
+                    <label class="form-label">{{ form.event_name.label.text }}</label>
+                    {{ form.event_name(class="form-control", placeholder="Name of the event") }}
                   </div>
-                  <div class="d-flex justify-content-between mb-1">
-                    <div class="col-md-5">
-                      <label for="checkOutDate" class="form-label">Check-Out Date</label>
-                      <input type="date" class="form-control" id="checkOutDate">
+
+                  <!-- Event Description -->
+                  <div class="mb-3">
+                    <label class="form-label">{{ form.description.label.text }}</label>
+                    {{ form.description(class="form-control", rows=3) }}
+                  </div>
+
+                  <!-- Event Type -->
+                  <div class="mb-3">
+                    <label class="form-label">{{ form.event_type.label.text }}</label>
+                    {{ form.event_type(class="form-select") }}
+                  </div>
+
+                  <!-- Check-In and Check-Out Dates -->
+                  <div class="d-flex row g-3 mb-3">
+                    <div class="d-flex justify-content-between mb-1">
+                      <div class="col-md-5">
+                        <label class="form-label">{{ form.checkin_date.label.text }}</label>
+                        {{ form.checkin_date(class="form-control") }}
+                      </div>
+                      <div class="col-md-5">
+                        <label class="form-label">{{ form.checkin_time.label.text }}</label>
+                        {{ form.checkin_time(class="form-control") }}
+                      </div>
                     </div>
-                    <div class="col-md-5">
-                      <label for="checkOutTime" class="form-label">Check-Out Time</label>
-                      <input type="time" class="form-control" id="checkOutTime">
+                    <div class="d-flex justify-content-between mb-1">
+                      <div class="col-md-5">
+                        <label class="form-label">{{ form.checkout_date.label.text }}</label>
+                        {{ form.checkout_date(class="form-control") }}
+                      </div>
+                      <div class="col-md-5">
+                        <label class="form-label">{{ form.checkout_time.label.text }}</label>
+                        {{ form.checkout_time(class="form-control") }}
+                      </div>
                     </div>
                   </div>
 
-                </div>
-        
-                <!-- Status Dropdown Box -->
-                <div class="status-container d-flex align-items-center gap-3 mb-3">
-                  <label class="form-label fw-bold">Status:</label>
-                  <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle btn-choosestatus" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Choose Status
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#"><span class="badge text-bg-success">OPEN</span></a></li>
-                      <li><a class="dropdown-item" href="#"><span class="badge text-bg-danger">CANCELLED</span></a></li>
-                      <li><a class="dropdown-item" href="#"><span class="badge text-bg-secondary">INACTIVE</span></a></li>
-                      <li><a class="dropdown-item" href="#"><span class="badge text-bg-warning">SOLD-OUT</span></a></li>
-                    </ul>
+                  <!-- Status Dropdown -->
+                  <div class="status-container d-flex align-items-center gap-3 mb-3">
+                    <label class="form-label">{{ form.status.label.text }}</label>
+                    <div class="w-100">
+                      {{ form.status(class="form-select btn-choosestatus") }}
+                    </div>
                   </div>
+
+                  <!-- File Upload (disabled placeholder) -->
+                  <div class="mb-3">
+                    {{ form.upload.label(class="form-label") }}
+                    {{ form.upload(class="form-control") }}
+                  </div>
+
+                  <!-- Submit Button -->
+                  <div class="text-end mt-4">
+                    {{ form.submit(class="btn btn-primary") }}
+                  </div>
+
                 </div>
-        
-                <!-- File Upload -->
-                <div class="mb-3">
-                  <label for="formFileMultiple" class="form-label">Upload files</label>
-                  <input class="form-control" type="file" id="formFileMultiple" multiple>
-                </div>
-        
-                <!-- Submit Button -->
-                <div class="text-end mt-4">
-                  <button type="submit" class="btn btn-primary">Create Event</button>
-                </div>
-              </div>
+              </form>
             </div>
-          </div>
-        </div>
 
     </main>
   </body>

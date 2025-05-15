@@ -38,19 +38,22 @@ class Event(db.Model):
     __tablename__ = 'events'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
+    event_name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    location = db.Column(db.String(100), nullable=False)
-    date_time = db.Column(db.DateTime, nullable=False)
-    category = db.Column(db.String(50), nullable=False)
-    capacity = db.Column(db.Integer, nullable=False)
+    event_type = db.Column(db.String(100), nullable=False)
+    checkin_date = db.Column(db.DateTime, nullable=False)
+    checkout_date = db.Column(db.DateTime, nullable=False)
+    checkin_time = db.Column(db.DateTime, nullable=False)
+    checkout_time = db.Column(db.DateTime, nullable=False)
+    status = db.Column(db.String(50), nullable=False)
 
     bookings = db.relationship('Booking', backref='event', lazy=True)
     tickets = db.relationship('Ticket', backref='event', lazy=True)
     reviews = db.relationship('Review', backref='event', lazy=True)
 
     def __repr__(self):
-        return f"<Event {self.id}: {self.title} at {self.location} on {self.date_time}>"
+        return f"<Event {self.id}: {self.event_name} ({self.event_type}) - Status: {self.status}>"
+
 
 
 class Ticket(db.Model):
