@@ -9,26 +9,59 @@ from . import db
 auth_bp = Blueprint('auth', __name__)
 
 # this is a hint for a login function
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from werkzeug.security import check_password_hash
+from flask_login import login_user, logout_user
+from .forms import LoginForm, RegisterForm  # if you also have a RegisterForm
+from .models import User
+from . import db
+
+auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
-# view function
 def login():
     login_form = LoginForm()
     error = None
+
     if login_form.validate_on_submit():
-        user_name = login_form.user_name.data
+        email = login_form.email.data
         password = login_form.password.data
-        user = db.session.scalar(db.select(User).where(User.name==user_name))
+
+        # Find user by email instead of first_name
+        user = db.session.scalar(db.select(User).where(User.email == email))
+
         if user is None:
-            error = 'Incorrect user name'
-        elif not check_password_hash(user.password_hash, password): # takes the hash and cleartext password
+            error = 'Incorrect email'
+        elif not check_password_hash(user.password, password):
             error = 'Incorrect password'
+
         if error is None:
             login_user(user)
-            nextp = request.args.get('next') # this gives the url from where the login page was accessed
-            print(nextp)
-            if next is None or not nextp.startswith('/'):
-                return redirect(url_for('index'))
+            nextp = request.args.get('next')
+            if not nextp or not nextp.startswith('/'):
+                return redirect(url_for('main.index'))
             return redirect(nextp)
         else:
             flash(error)
+
     return render_template('user.html', form=login_form, heading='Login')
+
+
+@auth_bp.route('/logout')
+def logout():
+    logout_user()
+    flash('You have been logged out.')
+    return redirect(url_for('auth.login'))
+
+@auth_bp.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        username = form.user_name.data
+        password = form.password.data
+        print('Successfully registered')
+        return redirect(url_for('auth.login'))
+
+    return render_template('register.html', form=form)
+
+

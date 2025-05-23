@@ -11,15 +11,16 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="static/style/style.css"> 
-</head>
+  </head>
+
 <header>
   <nav class="navbar navbar-expand-lg shadow-lg p-2 border-bottom border-white" style="background-color: #17a5d5;">
     <div class="container-fluid">
-      <a class="navbar-brand text-white fw-bold d-flex align-items-center"href="{{ url_for('main.index') }}">
-        <img src="{{ url_for('static', filename='img/logo.png')}}" alt="Logo" width="40" height="40" class="me-2">
+      <a class="navbar-brand text-white fw-bold d-flex align-items-center" href="{{ url_for('main.index') }}">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" width="40" height="40" class="me-2">
         CorporateEvents
       </a>
-      
+
       <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -36,21 +37,43 @@
             <a class="nav-link" href="{{ url_for('main.event_history') }}">Event History</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('main.view_event') }}">View Event</a>
+            <a class="nav-link" href="{{ url_for('main.view_event', event_id=event.id) }}">View Event</a>
           </li>
         </ul>
 
-        <div class="d-flex ">
+        <!-- Action Buttons (Create, Login Dropdown, Signup) -->
+        <div class="d-flex">
+          <!-- Create Event Button -->
           <a href="{{ url_for('main.create_event') }}" 
             class="btn btn-outline-light me-2 btn-navcreateevent d-flex justify-content-center align-items-center" 
             role="button">
             Create Event
           </a>
-          <a href="{{ url_for('main.user') }}" 
-            class="btn btn-outline-light me-2 btn-login d-flex justify-content-center align-items-center" 
-            role="button">
-            Login
-          </a>
+
+          <!-- Login Dropdown Form -->
+          <div class="dropdown me-2">
+            <button type="button" class="btn btn-outline-light me-2 btn-login d-flex justify-content-center align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+              Login
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end p-4" aria-labelledby="loginDropdown" style="min-width: 250px;">
+              <li>
+                <form method="POST" action="{{ url_for('auth.login') }}">
+                  {{ login_form.hidden_tag() }}
+                  <div class="mb-3">
+                    {{ login_form.user_name.label(class="form-label") }}
+                    {{ login_form.user_name(class="form-control", id="dropdownUsername", placeholder="Enter username") }}
+                  </div>
+                  <div class="mb-3">
+                    {{ login_form.password.label(class="form-label") }}
+                    {{ login_form.password(class="form-control", id="dropdownPassword", placeholder="Enter password") }}
+                  </div>
+                  {{ login_form.submit(class="btn btn-primary w-100") }}
+                </form>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Sign Up Button -->
           <a href="{{ url_for('main.user') }}" 
             class="btn btn-primary btn-login d-flex justify-content-center align-items-center" 
             role="button">
@@ -73,15 +96,12 @@
           <div class="col-lg-8 col-md-12">
             <div class="p-4 shadow-sm bg-white rounded">
               <h1 class="mb-3"><strong>Big Meet Conventions</strong></h1>
-              <img src="img/business_test.jpg" class="img-fluid rounded mb-3" alt="business_test.jpg">
-              <p class="mb-3">
-                Join us for an exciting day of networking, inspiration, and professional growth at the Big Meet Conventions!
-                This event is a unique opportunity to connect with industry leaders, explore new career paths, and gain
-                valuable insights into the latest trends and innovations. Whether you're a student, graduate, or young
-                professional, engage with top employers, attend sessions, and build lasting connections.
-              </p>
-              <p><strong>Event Type:</strong> Networking</p>
-              <p><strong>Time:</strong> 10:00 AM - 5:00 PM</p>
+              <h1 class="mb-3"><strong>{{ event.event_name }}</strong></h1>
+              <p class="mb-3">{{ event.description }}</p>
+              <p><strong>Event Type:</strong> {{ event.event_type }}</p>
+              <p><strong>Time:</strong> {{ event.checkin_time.strftime('%I:%M %p') }} - {{ event.checkout_time.strftime('%I:%M %p') }}</p>
+              <p><strong>Date:</strong> {{ event.checkin_date.strftime('%d %B %Y') }}</p>
+              <p><strong>Status:</strong> {{ event.status }}</p>
               <p><strong>Location:</strong> 123 Hoodville Avenue, Kunal's Dungeon, Rajasthan, India</p>
       
               <div class="mt-4">
