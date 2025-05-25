@@ -1,21 +1,19 @@
 from . import db
 from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 class User(db.Model, UserMixin):
-    __tablename__ = 'users'
+    __tablename__ = 'users' 
 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(100), nullable=False)
-    last_name = db.Column(db.String(100), nullable=False)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(100), nullable=False, unique=True)
+    contact = db.Column(db.String(15), nullable=False)
+    address = db.Column(db.String(200), nullable=False)
+    user_name = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(200), nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-
-    bookings = db.relationship('Booking', backref='user', lazy=True)
-    reviews = db.relationship('Review', backref='user', lazy=True)
-
-    def __repr__(self):
-        return f"<User {self.id}: {self.first_name} {self.last_name}, Email: {self.email}>"
 
 
 class Booking(db.Model):

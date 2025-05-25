@@ -56,12 +56,29 @@ def logout():
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-    if form.validate_on_submit():
-        username = form.user_name.data
-        password = form.password.data
-        print('Successfully registered')
-        return redirect(url_for('auth.login'))
 
+    if form.validate_on_submit():
+        print("✅ Form validated")
+        print("Username:", form.user_name.data)
+
+        user = User(
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            email=form.email.data,
+            contact=form.contact.data,
+            address=form.address.data,
+            user_name=form.user_name.data,
+            password=generate_password_hash(form.password.data)
+        )
+
+        db.session.add(user)
+        db.session.commit()
+        print("🎉 User saved to DB")
+
+        flash('Account created successfully!')
+        return redirect(url_for('auth.login'))
+    
+    print("⚠️ Form errors:", form.errors)
     return render_template('register.html', form=form)
 
 
