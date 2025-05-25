@@ -40,7 +40,9 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         # Check if user already exists
+        print("Checking if user exists:", form.email.data)
         existing_user = User.query.filter_by(email=form.email.data).first()
+        print("Result of user check:", existing_user)
         if existing_user:
             flash("Email already registered.")
             return redirect(url_for('auth.register'))
@@ -53,6 +55,8 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
+        print(f"New user registered: {new_user.name}, {new_user.email}")
+
         flash("Registration successful. Please log in.")
         return redirect(url_for('auth.login'))
 
