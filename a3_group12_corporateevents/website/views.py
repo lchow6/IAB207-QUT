@@ -91,8 +91,3 @@ def user():
 @main_bp.route('/eventhistory')
 def event_history():
     return render_template('eventhistory.html')
-
-
-@main_bp.route('/viewevent')
-def view_event():
-    return render_template('viewevent.html')
