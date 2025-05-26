@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app
+from flask_login import login_required, current_user
 from .forms import EventForm, LoginForm
 from .models import Event
 from . import db
@@ -20,6 +21,7 @@ def index():
 
 
 @main_bp.route('/createevent', methods=['GET', 'POST'])
+@login_required  # Ensure user is logged in to create an event
 def create_event():
     form = EventForm()
     login_form = LoginForm() 
@@ -58,7 +60,8 @@ def create_event():
             checkin_time=checkin_dt,
             checkout_time=checkout_dt,
             status=form.status.data,
-            # file_name=filename  # Uncomment if storing filename in DB
+            file_name=filename,  # Uncomment if storing filename in DB
+            user_id=current_user.id  # Uncomment if associating with logged-in user
         )
 
         db.session.add(new_event)

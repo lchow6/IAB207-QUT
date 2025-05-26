@@ -49,6 +49,10 @@ class Event(db.Model):
     tickets = db.relationship('Ticket', backref='event', lazy=True)
     reviews = db.relationship('Review', backref='event', lazy=True)
 
+    # Asscoiate the event with a user
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    owner = db.relationship('User', backref='events', lazy=True)
+
     def __repr__(self):
         return f"<Event {self.id}: {self.event_name} ({self.event_type}) - Status: {self.status}>"
 

@@ -82,26 +82,20 @@
               <div class="create-event-container p-4 shadow rounded bg-white">
                 <!-- Event Name -->
                 <div class="mb-3">
-                  <label for="exampleFormControlInput1" class="form-label">Event Name</label>
-                  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name of the event">
+                  {{ form.event_name.label(class="form-label") }}
+                  {{ form.event_name(class="form-control", placeholder="Name of the event") }}
                 </div>
         
                 <!-- Event Description -->
                 <div class="mb-3">
-                  <label for="exampleFormControlTextarea1" class="form-label">Event Description</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                  {{ form.description.label(class="form-label") }}
+                  {{ form.description(class="form-control", rows=3) }}
                 </div>
         
                 <!-- Event Type -->
                 <div class="mb-3">
-                  <label for="eventType" class="form-label">Event Type</label>
-                  <select class="form-select" id="eventType">
-                    <option selected>Choose event type</option>
-                    <option value="Seminar">Seminar</option>
-                    <option value="Conference">Conference</option>
-                    <option value="Webinar">Webinar</option>
-                    <option value="Networking">Networking</option>
-                  </select>
+                  {{ form.event_type.label(class="form-label") }}
+                  {{ form.event_type(class="form-select") }}
                 </div>
         
                 <!-- Check-In and Check-Out Dates -->
