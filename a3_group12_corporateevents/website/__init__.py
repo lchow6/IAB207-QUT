@@ -3,9 +3,9 @@ from flask import Flask
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_bcrypt import Bcrypt
 
-
-
+bcrypt = Bcrypt() 
 db = SQLAlchemy()
 
 # create a function that creates a web application
@@ -20,6 +20,8 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sqllite_database.db'
     # initialise db with flask app
     db.init_app(app)
+   # initialise bcrypt with flask app
+    bcrypt.init_app(app)
 
     Bootstrap5(app)
     

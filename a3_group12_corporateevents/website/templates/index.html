@@ -9,77 +9,71 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
 </head>
 <header>
-  <nav class="navbar navbar-expand-lg shadow-lg p-2 border-bottom border-white" style="background-color: #17a5d5;">
-    <div class="container-fluid">
-      <a class="navbar-brand text-white fw-bold d-flex align-items-center" href="{{ url_for('main.index') }}">
-        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" width="40" height="40" class="me-2">
-        CorporateEvents
-      </a>
+<nav class="navbar navbar-expand-lg shadow-lg p-2 border-bottom border-white" style="background-color: #17a5d5;">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white fw-bold d-flex align-items-center" href="{{ url_for('main.index') }}">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" width="40" height="40" class="me-2">
+      CorporateEvents
+    </a>
 
-      <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('main.create_event') }}">Create Event</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('main.user') }}">User Profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('main.event_history') }}">Event History</a>
-          <li class="nav-item">
-            {% if event %}
-              <a class="nav-link" href="{{ url_for('main.view_event', event_id=event.id) }}">View Event</a>
-            {% else %}
-              <a class="nav-link disabled" href="#">No Events Yet</a>
-            {% endif %}
-          </li>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('main.create_event') }}">Create Event</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('main.user') }}">User Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('main.event_history') }}">Event History</a>
+        </li>
+        <li class="nav-item">
+          {% if event %}
+            <a class="nav-link" href="{{ url_for('main.view_event', event_id=event.id) }}">View Event</a>
+          {% else %}
+            <a class="nav-link disabled" href="#">No Events Yet</a>
+          {% endif %}
+        </li>
+      </ul>
 
-        </ul>
+      <div class="d-flex align-items-center">
+        <a href="{{ url_for('main.create_event') }}" 
+           class="btn btn-outline-light me-2 btn-navcreateevent d-flex justify-content-center align-items-center" 
+           role="button">
+          Create Event
+        </a>
 
-        <!-- Action Buttons (Create, Login Dropdown, Signup) -->
-        <div class="d-flex">
-          <!-- Create Event Button -->
-        <div class="d-flex">
-          <a href="{{ url_for('main.create_event') }}" 
-            class="btn btn-outline-light me-2 btn-navcreateevent d-flex justify-content-center align-items-center" 
-            role="button">
-            Create Event
-          </a>
-          
+        {% if current_user.is_authenticated %}
           <div class="dropdown me-2">
-            <button type="button" class="btn btn-outline-light btn-login" id="loginDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              Login
+            <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              {{ current_user.first_name }}
             </button>
-            <ul class="dropdown-menu dropdown-menu-end p-4" aria-labelledby="loginDropdown" style="min-width: 250px;">
-              <li>
-                <form>
-                  <div class="mb-3">
-                    <label for="dropdownUsername" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="dropdownUsername" placeholder="Enter username" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="dropdownPassword" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="dropdownPassword" placeholder="Enter password" required>
-                  </div>
-                  <button type="submit" class="btn btn-primary w-100">Login</button>
-                </form>
-              </li>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" href="{{ url_for('main.user') }}">Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}">Logout</a></li>
             </ul>
           </div>
+        {% else %}
+          <a href="{{ url_for('auth.login') }}" 
+             class="btn btn-outline-light me-2 btn-login d-flex justify-content-center align-items-center" 
+             role="button">
+            Login
+          </a>
           <a href="{{ url_for('auth.register') }}" 
-            class="btn btn-primary btn-login d-flex justify-content-center align-items-center" 
-            role="button">
+             class="btn btn-primary btn-login d-flex justify-content-center align-items-center" 
+             role="button">
             Sign Up
           </a>
-
-       
+        {% endif %}
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
 </header>
 
 <body style="background-color: #ffffff;"> 
