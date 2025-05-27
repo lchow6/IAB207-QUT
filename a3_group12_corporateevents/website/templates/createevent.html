@@ -1,158 +1,94 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Create Event</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="static/style/style.css">
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create Event</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+</head>
 
+<body>
   <header>
     <nav class="navbar navbar-expand-lg shadow-lg p-2 border-bottom border-white" style="background-color: #17a5d5;">
       <div class="container-fluid">
-        <a class="navbar-brand text-white fw-bold d-flex align-items-center"href="{{ url_for('main.index') }}">
-          <img src="{{ url_for('static', filename='img/logo.png')}}" alt="Logo" width="40" height="40" class="me-2">
+        <a class="navbar-brand text-white fw-bold d-flex align-items-center" href="{{ url_for('main.index') }}">
+          <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" width="40" height="40" class="me-2">
           CorporateEvents
         </a>
-        
-        <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-  
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('main.create_event') }}">Create Event</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('main.user') }}">User Profile</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('main.event_history') }}">Event History</a>
-            </li>
-            <li class="nav-item">
-              {% if event %}
-                <a class="nav-link" href="{{ url_for('main.view_event', event_id=event.id) }}">View Event</a>
-              {% else %}
-                <a class="nav-link disabled" href="#">No Events Yet</a>
-              {% endif %}
-            </li>
-          </ul>
-  
-          <div class="d-flex ">
-            <a href="{{ url_for('main.create_event') }}" 
-              class="btn btn-outline-light me-2 btn-navcreateevent d-flex justify-content-center align-items-center" 
-              role="button">
-              Create Event
-            </a>
-            <a href="{{ url_for('main.user') }}" 
-              class="btn btn-outline-light me-2 btn-login d-flex justify-content-center align-items-center" 
-              role="button">
-              Login
-            </a>
-            <a href="{{ url_for('main.user') }}" 
-              class="btn btn-primary btn-login d-flex justify-content-center align-items-center" 
-              role="button">
-              Sign Up
-            </a>
-          </div>
-        </div>
       </div>
     </nav>
   </header>
-  <body>
-    <main>
 
-      <div class="container mt-4"> 
-        <div class="row mb-2">
-          <div class="col-12 createevent-back-button-container">
-            <a href="./index.html" class="btn btn-primary">Back</a>
-          </div>
-        </div>
-      
-        <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-          <div class="row w-100">
-            <!-- Form Container -->
-            <div class="col-md-8 mx-auto">
-              <div class="create-event-container p-4 shadow rounded bg-white">
-                <!-- Event Name -->
-                <div class="mb-3">
-                  {{ form.event_name.label(class="form-label") }}
-                  {{ form.event_name(class="form-control", placeholder="Name of the event") }}
-                </div>
-        
-                <!-- Event Description -->
-                <div class="mb-3">
-                  {{ form.description.label(class="form-label") }}
-                  {{ form.description(class="form-control", rows=3) }}
-                </div>
-        
-                <!-- Event Type -->
-                <div class="mb-3">
-                  {{ form.event_type.label(class="form-label") }}
-                  {{ form.event_type(class="form-select") }}
-                </div>
-        
-                <!-- Check-In and Check-Out Dates -->
-                <div class="d-flex row g-3 mb-3">
-                  <div class="d-flex justify-content-between mb-1">
-                    <div class="col-md-5">
-                      <label for="checkInDate" class="form-label">Check-In Date</label>
-                      <input type="date" class="form-control" id="checkInDate">
-                    </div>
-                    <div class="col-md-5">
-                      <label for="checkInTime" class="form-label">Check-In Time</label>
-                      <input type="time" class="form-control" id="checkInTime">
-                    </div>
-                  </div>
-                  <div class="d-flex justify-content-between mb-1">
-                    <div class="col-md-5">
-                      <label for="checkOutDate" class="form-label">Check-Out Date</label>
-                      <input type="date" class="form-control" id="checkOutDate">
-                    </div>
-                    <div class="col-md-5">
-                      <label for="checkOutTime" class="form-label">Check-Out Time</label>
-                      <input type="time" class="form-control" id="checkOutTime">
-                    </div>
-                  </div>
+  <main class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="p-4 shadow rounded bg-white">
+          <h2 class="mb-4">Create Event</h2>
 
-                </div>
-        
-                <!-- Status Dropdown Box -->
-                <div class="status-container d-flex align-items-center gap-3 mb-3">
-                  <label class="form-label fw-bold">Status:</label>
-                  <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle btn-choosestatus" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Choose Status
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#"><span class="badge text-bg-success">OPEN</span></a></li>
-                      <li><a class="dropdown-item" href="#"><span class="badge text-bg-danger">CANCELLED</span></a></li>
-                      <li><a class="dropdown-item" href="#"><span class="badge text-bg-secondary">INACTIVE</span></a></li>
-                      <li><a class="dropdown-item" href="#"><span class="badge text-bg-warning">SOLD-OUT</span></a></li>
-                    </ul>
-                  </div>
-                </div>
-        
-                <!-- File Upload -->
-                <div class="mb-3">
-                  <label for="formFileMultiple" class="form-label">Upload files</label>
-                  <input class="form-control" type="file" id="formFileMultiple" multiple>
-                </div>
-        
-                <!-- Submit Button -->
-                <div class="text-end mt-4">
-                  <button type="submit" class="btn btn-primary">Create Event</button>
-                </div>
+
+          <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <!-- Event Name -->
+            <div class="mb-3">
+              {{ form.event_name.label(class="form-label") }}
+              {{ form.event_name(class="form-control", placeholder="Name of the event") }}
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+              {{ form.description.label(class="form-label") }}
+              {{ form.description(class="form-control", rows=3) }}
+            </div>
+
+            <!-- Event Type -->
+            <div class="mb-3">
+              {{ form.event_type.label(class="form-label") }}
+              {{ form.event_type(class="form-select") }}
+            </div>
+
+            <!-- Dates and Times -->
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                {{ form.checkin_date.label(class="form-label") }}
+                {{ form.checkin_date(class="form-control") }}
+              </div>
+              <div class="col-md-6 mb-3">
+                {{ form.checkin_time.label(class="form-label") }}
+                {{ form.checkin_time(class="form-control") }}
+              </div>
+              <div class="col-md-6 mb-3">
+                {{ form.checkout_date.label(class="form-label") }}
+                {{ form.checkout_date(class="form-control") }}
+              </div>
+              <div class="col-md-6 mb-3">
+                {{ form.checkout_time.label(class="form-label") }}
+                {{ form.checkout_time(class="form-control") }}
               </div>
             </div>
-          </div>
-        </div>
 
-    </main>
-  </body>
+            <!-- Status -->
+            <div class="mb-3">
+              {{ form.status.label(class="form-label") }}
+              {{ form.status(class="form-select") }}
+            </div>
+
+            <!-- File Upload -->
+            <div class="mb-3">
+              {{ form.upload.label(class="form-label") }}
+              {{ form.upload(class="form-control") }}
+            </div>
+
+            <!-- Submit -->
+            <div class="text-end mt-4">
+              {{ form.submit(class="btn btn-primary") }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

@@ -60,7 +60,7 @@ def create_event():
             checkin_time=checkin_dt,
             checkout_time=checkout_dt,
             status=form.status.data,
-            file_name=filename,  # Uncomment if storing filename in DB
+            #file_name=filename,  # Uncomment if storing filename in DB
             user_id=current_user.id  # Uncomment if associating with logged-in user
         )
 
