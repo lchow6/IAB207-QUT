@@ -25,7 +25,7 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="p-4 shadow rounded bg-white">
-          <h2 class="mb-4">Create Event</h2>
+          <h2 class="mb-4">{{ 'Edit Event' if event else 'Create Event' }}</h2>
 
 
           <form method="POST" enctype="multipart/form-data">
@@ -83,7 +83,7 @@
 
             <!-- Submit -->
             <div class="text-end mt-4">
-              {{ form.submit(class="btn btn-primary") }}
+              {{ form.submit(class="btn btn-primary", value='Update Event' if event else 'Create Event') }}
             </div>
           </form>
         </div>

@@ -66,7 +66,7 @@ def create_event():
         db.session.commit()
         return redirect(url_for('main.view_event', event_id=new_event.id))
 
-    return render_template('createevent.html', form=form, login_form=login_form)
+    return render_template('createevent.html', form=form, login_form=login_form, event=None)
 
 @main_bp.route('/viewevents')
 def view_events():
