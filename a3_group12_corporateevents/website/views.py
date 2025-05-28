@@ -31,28 +31,21 @@ def create_event():
         print("Form errors:", form.errors)
 
     if form.validate_on_submit():
-        print("Form validated successfully.")
-
         file = form.upload.data
         filename = None
 
         if file and file.filename:
             filename = secure_filename(file.filename)
-            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-            upload_path = os.path.join(base_path, 'static', 'upload', filename)
-
-            # Create directory if missing
+            upload_path = os.path.join(current_app.root_path, 'static', 'upload', filename)
             os.makedirs(os.path.dirname(upload_path), exist_ok=True)
+            try:
+                file.save(upload_path)
+                print(f"File saved to: {upload_path}")
+            except Exception as e:
+                filename = None
+                print(f"File save failed: {e}")
 
-        try:
-            file.save(upload_path)
-            print(f"File saved to: {upload_path}")
-        except Exception as e:
-            print(f"File save failed: {e}")
-        else:
-            print("No file selected or empty filename.")
-
-        # Combine date and time
+        # Outside try/except so it always runs
         checkin_dt = datetime.combine(form.checkin_date.data, form.checkin_time.data)
         checkout_dt = datetime.combine(form.checkout_date.data, form.checkout_time.data)
 
@@ -65,15 +58,13 @@ def create_event():
             checkin_time=checkin_dt,
             checkout_time=checkout_dt,
             status=form.status.data,
-            file_name=filename,  # Uncomment if storing filename in DB
-            user_id=current_user.id  # Uncomment if associating with logged-in user
+            file_name=filename,
+            user_id=current_user.id
         )
 
         db.session.add(new_event)
         db.session.commit()
-
-        print("Event created and committed to the database.")
-        return redirect(url_for('main.view_event', event_id=new_event.id))  # You must support event_id param in view_event
+        return redirect(url_for('main.view_event', event_id=new_event.id))
 
     return render_template('createevent.html', form=form, login_form=login_form)
 
@@ -94,8 +85,51 @@ def user():
     return render_template('user.html', login_form=login_form, heading='Login')
 
 
-
-
 @main_bp.route('/eventhistory')
 def event_history():
-    return render_template('eventhistory.html')
+    user_events = Event.query.filter_by(user_id=current_user.id).all()
+    return render_template('eventhistory.html', events=user_events)
+
+
+
+@main_bp.route('/edit_event/<int:event_id>', methods=['GET', 'POST'])
+@login_required
+def edit_event(event_id):
+    event = db.session.get(Event, event_id)
+    if not event or event.user_id != current_user.id:
+        return "Unauthorized", 403
+
+    form = EventForm(obj=event)
+
+    if form.validate_on_submit():
+        event.event_name = form.event_name.data
+        event.description = form.description.data
+        event.event_type = form.event_type.data
+        event.checkin_date = datetime.combine(form.checkin_date.data, form.checkin_time.data)
+        event.checkout_date = datetime.combine(form.checkout_date.data, form.checkout_time.data)
+        event.checkin_time = form.checkin_time.data
+        event.checkout_time = form.checkout_time.data
+
+        file = form.upload.data
+        if file and file.filename:
+            filename = secure_filename(file.filename)
+            path = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')), 'static', 'upload', filename)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            file.save(path)
+            event.file_name = filename
+
+        db.session.commit()
+        return redirect(url_for('main.view_event', event_id=event.id))
+
+    return render_template('createevent.html', form=form, event=event)
+
+@main_bp.route('/cancel_event/<int:event_id>', methods=['POST'])
+@login_required
+def cancel_event(event_id):
+    event = db.session.get(Event, event_id)
+    if not event or event.user_id != current_user.id:
+        return "Unauthorized", 403
+    event.status = "Cancelled"
+    db.session.commit()
+    return redirect(url_for('main.event_history'))
+

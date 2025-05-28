@@ -59,218 +59,36 @@
   </header>
 
   <body>
-    <main>
-        <!-- Cards-->
-          <div class="row px-5 py-3 event-tabs">
-          <div class="col-md-4">
-            <div class="">
-              <h1>Booking History</h1>
-              <p>View your past, current, and upcoming events.</p>
-            </div>
-            </div>
-            <div class="">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                  <!-- Current Events Tab -->
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="current-event-tab" data-bs-toggle="tab" data-bs-target="#current-event-tab-pane" type="button" role="tab" aria-controls="current-event-tab-pane" aria-selected="true">Current Events</button>
-                  </li>
-                  <!-- Past Events Tab -->
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="past-event-tab" data-bs-toggle="tab" data-bs-target="#past-event-tab-pane" type="button" role="tab" aria-controls="past-event-tab" aria-selected="false">Past Events</button>
-                  </li>
-                  <!-- Upcoming Events Tab -->
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="upcoming-event-tab" data-bs-toggle="tab" data-bs-target="#upcoming-event-tab-pane" type="button" role="tab" aria-controls="upcoming-event-tab" aria-selected="false">Upcoming Events</button>
-                  </li>
-                </ul>
+      <main class="container py-4">
+        <h2>Your Created Events</h2>
+        {% if events %}
+          {% for event in events %}
+          <div class="card mb-4 shadow">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{{ url_for('static', filename='upload/' + (event.file_name or 'default.jpg')) }}" 
+                  class="img-fluid rounded-start" alt="Event Image">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{ event.event_name }}</h5>
+                  <p class="card-text"><strong>Type:</strong> {{ event.event_type }}</p>
+                  <p class="card-text"><strong>Status:</strong> {{ event.status }}</p>
+                  <p class="card-text"><strong>Check-in:</strong> {{ event.checkin_date.strftime('%B %d, %Y at %I:%M %p') }}</p>
 
-                <div class="tab-content" id="myTabContent">
-                  <!-- Current Events Tab Content -->
-                  <div class="tab-pane fade show active" id="current-event-tab-pane" role="tabpanel" aria-labelledby="current-event-tab" tabindex="0">
-                    <div class="currentevent-container">
-                      <!-- Event 1 -->
-                      <div class="card mb-3 mt-5 w-100" style="max-width: 1000px;">
-                        <div class="row g-0">
-                          <div class="col-md-4">
-                            <img src="img/business_test.jpg" class="img-fluid rounded-start" alt="business_test.jpg">
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                              <h5 class="card-title"><strong>Big Meet Conventions</strong></h5>
-                              <p class="card-text mb-1"><strong>Booking ID:</strong> #bk22ac445</p>
-                              <p class="card-text mb-1"><strong>Booked On:</strong> March 22, 2025 at 2:00 PM</p>
-                              <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Event 2 -->
-                      <div class="card mb-3 mt-5 w-100" style="max-width: 1000px;">
-                        <div class="row g-0">
-                          <div class="col-md-4">
-                            <img src="img/dxcnetowrkingimg.jpg" class="img-fluid rounded-start" alt="dxcnetowrkingimg.jpg">
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                              <h5 class="card-title"><strong>DXC Tech Networking</strong></h5>
-                              <p class="card-text mb-1"><strong>Booking ID:</strong> #bk45df789</p>
-                              <p class="card-text mb-1"><strong>Booked On:</strong> March 21, 2025 at 6:00 PM</p>
-                              <p class="card-text"><small class="text-body-secondary">Last updated 20 mins ago</small></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Event 3 -->
-                      <div class="card mb-3 mt-5 w-100" style="max-width: 1000px;">
-                        <div class="row g-0">
-                          <div class="col-md-4">
-                            <img src="img/azuresky.png" class="img-fluid rounded-start" alt="azuresky.png">
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                              <h5 class="card-title"><strong>Azure Sky Networking</strong></h5>
-                              <p class="card-text mb-1"><strong>Booking ID:</strong> #bk98gh123</p>
-                              <p class="card-text mb-1"><strong>Booked On:</strong> March 25, 2025 at 4:00 PM</p>
-                              <p class="card-text"><small class="text-body-secondary">Last updated 42 mins ago</small></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Event 4 -->
-                      <div class="card mb-3 mt-5 w-100" style="max-width: 1000px;">
-                        <div class="row g-0">
-                          <div class="col-md-4">
-                            <img src="img/m&a.jpg" class="img-fluid rounded-start" alt="m&a.jpg">
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                              <h5 class="card-title"><strong>M & A Consultants</strong></h5>
-                              <p class="card-text mb-1"><strong>Booking ID:</strong> #bk90gh345</p>
-                              <p class="card-text mb-1"><strong>Booked On:</strong> March 15, 2025 at 10:00 AM</p>
-                              <p class="card-text"><small class="text-body-secondary">Last updated 3 hours ago</small></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-
-                  <!-- Past Events Tab Content -->
-                  <div class="tab-pane fade" id="past-event-tab-pane" role="tabpanel" aria-labelledby="past-event-tab" tabindex="0">
-                    <div class="pastevent-container">
-                      <!-- Event 6 -->
-                      <div class="card mb-3 mt-5 w-100" style="max-width: 1000px;">
-                        <div class="row g-0">
-                          <div class="col-md-4">
-                            <img src="img/ey-business-people-networking.jpg" class="img-fluid rounded-start" alt="ey-business-people-networking.jpg">
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                              <h5 class="card-title"><strong>EY Annual Meeting</strong></h5>
-                              <p class="card-text mb-1"><strong>Booking ID:</strong> #bk56kl012</p>
-                              <p class="card-text mb-1"><strong>Booked On:</strong> January 11, 2025 at 12:00 AM</p>
-                              <p class="card-text"><small class="text-body-secondary">Last updated 120 days ago</small></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Event 7 -->
-                      <div class="card mb-3 mt-5 w-100" style="max-width: 1000px;">
-                        <div class="row g-0">
-                          <div class="col-md-4">
-                            <img src="img/kpgm-business-img.png" class="img-fluid rounded-start" alt="kpgm-business-img.png">
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                              <h5 class="card-title"><strong>EY Annual Meeting</strong></h5>
-                              <p class="card-text mb-1"><strong>Booking ID:</strong> #bk23ij789</p>
-                              <p class="card-text mb-1"><strong>Booked On:</strong> January 11, 2025 at 12:00 AM</p>
-                              <p class="card-text"><small class="text-body-secondary">Last updated 120 days ago</small></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Event 8 -->
-                      <div class="card mb-3 mt-5 w-100" style="max-width: 1000px;">
-                        <div class="row g-0">
-                          <div class="col-md-4">
-                            <img src="img/amazon-business-image.jpg" class="img-fluid rounded-start" alt="amazon-business-image.jpg">
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                              <h5 class="card-title"><strong>Amazon Annual Seminar</strong></h5>
-                              <p class="card-text mb-1"><strong>Booking ID:</strong> #bk12ij678</p>
-                              <p class="card-text mb-1"><strong>Booked On:</strong> January 11, 2025 at 12:00 AM</p>
-                              <p class="card-text"><small class="text-body-secondary">Last updated 90 days ago</small></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Upcoming Events Tab Content -->
-                  <div class="tab-pane fade" id="upcoming-event-tab-pane" role="tabpanel" aria-labelledby="upcoming-event-tab" tabindex="0">
-                    <div class="pastevent-container">
-                      <!-- Event 9 -->
-                      <div class="card mb-3 mt-5 w-100" style="max-width: 1000px;">
-                        <div class="row g-0">
-                          <div class="col-md-4">
-                            <img src="img/ehealth-innovation-img.jpg" class="img-fluid rounded-start" alt="ehealth-innovation-img.jpg">
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                              <h5 class="card-title"><strong>eHealth Innovation Seminar</strong></h5>
-                              <p class="card-text mb-1"><strong>Booking ID:</strong> #bk23fi319</p>
-                              <p class="card-text mb-1"><strong>Booked On:</strong> January 11, 2025 at 12:00 AM</p>
-                              <p class="card-text"><small class="text-body-secondary">Last updated 90 days ago</small></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Event 10 -->
-                      <div class="card mb-3 mt-5 w-100" style="max-width: 1000px;">
-                        <div class="row g-0">
-                          <div class="col-md-4">
-                            <img src="img/xpeng-car-img.jpg" class="img-fluid rounded-start" alt="expeng-car-img.jpg">
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                              <h5 class="card-title"><strong>XPENG launch Event</strong></h5>
-                              <p class="card-text mb-1"><strong>Booking ID:</strong> #bk89fs222</p>
-                              <p class="card-text mb-1"><strong>Booked On:</strong> January July 20, 2025 at 12:00 AM</p>
-                              <p class="card-text"><small class="text-body-secondary">Last updated 90 days ago</small></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Event 11 -->
-                      <div class="card mb-3 mt-5 w-100" style="max-width: 1000px;">
-                        <div class="row g-0">
-                          <div class="col-md-4">
-                            <img src="img/taylor-intelligence-image.jpg" class="img-fluid rounded-start" alt="taylor-intelligence-image.jpg">
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                              <h5 class="card-title"><strong>Taylor Intelligence Annual Meeting</strong></h5>
-                              <p class="card-text mb-1"><strong>Booking ID:</strong> #bk55gu727</p>
-                              <p class="card-text mb-1"><strong>Booked On:</strong> January July 20, 2025 at 12:00 AM</p>
-                              <p class="card-text"><small class="text-body-secondary">Last updated 90 days ago</small></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <!-- Action buttons -->
+                  <a href="{{ url_for('main.view_event', event_id=event.id) }}" class="btn btn-info btn-sm">View</a>
+                  <a href="{{ url_for('main.edit_event', event_id=event.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                  <form method="POST" action="{{ url_for('main.cancel_event', event_id=event.id) }}" class="d-inline">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Cancel this event?')">Cancel</button>
+                  </form>
                 </div>
               </div>
             </div>
-
-    </main>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p>You haven't created any events yet.</p>
+        {% endif %}
+      </main>
   </body>
