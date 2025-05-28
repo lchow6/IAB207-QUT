@@ -38,12 +38,17 @@ def create_event():
 
         if file and file.filename:
             filename = secure_filename(file.filename)
-            upload_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-            try:
-                file.save(upload_path)
-                print(f"File saved to: {upload_path}")
-            except Exception as e:
-                print(f"File save failed: {e}")
+            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+            upload_path = os.path.join(base_path, 'static', 'upload', filename)
+
+            # Create directory if missing
+            os.makedirs(os.path.dirname(upload_path), exist_ok=True)
+
+        try:
+            file.save(upload_path)
+            print(f"File saved to: {upload_path}")
+        except Exception as e:
+            print(f"File save failed: {e}")
         else:
             print("No file selected or empty filename.")
 
@@ -60,7 +65,7 @@ def create_event():
             checkin_time=checkin_dt,
             checkout_time=checkout_dt,
             status=form.status.data,
-            #file_name=filename,  # Uncomment if storing filename in DB
+            file_name=filename,  # Uncomment if storing filename in DB
             user_id=current_user.id  # Uncomment if associating with logged-in user
         )
 

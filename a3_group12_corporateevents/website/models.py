@@ -44,6 +44,7 @@ class Event(db.Model):
     checkin_time = db.Column(db.DateTime, nullable=False)
     checkout_time = db.Column(db.DateTime, nullable=False)
     status = db.Column(db.String(50), nullable=False)
+    file_name = db.Column(db.String(999), nullable=True)
 
     bookings = db.relationship('Booking', backref='event', lazy=True)
     tickets = db.relationship('Ticket', backref='event', lazy=True)

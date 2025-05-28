@@ -18,6 +18,8 @@ def create_app():
     app.secret_key = 'somesecretkey'
     # set the app configuration data 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sqllite_database.db'
+    # set the upload folder for file uploads
+    app.config['UPLOAD_FOLDER'] = 'website/static/upload'
     # initialise db with flask app
     db.init_app(app)
    # initialise bcrypt with flask app
