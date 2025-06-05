@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app
 from flask_login import login_required, current_user
 from .forms import EventForm, LoginForm
-from .models import Event
+from .models import Event, Ticket, Booking  
 from . import db
 from datetime import datetime
 from werkzeug.utils import secure_filename
@@ -132,4 +132,17 @@ def cancel_event(event_id):
     event.status = "Cancelled"
     db.session.commit()
     return redirect(url_for('main.event_history'))
+
+@main_bp.route('/tickets')
+@login_required
+def view_tickets():
+    user_tickets = (
+        db.session.query(Ticket)
+        .join(Booking)
+        .filter(Booking.user_id == current_user.id)
+        .all()
+    )
+    return render_template('tickets.html', tickets=user_tickets)
+
+
 

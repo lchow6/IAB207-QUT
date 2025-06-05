@@ -43,6 +43,7 @@
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
               <li><a class="dropdown-item" href="{{ url_for('main.user') }}">Profile</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.event_history') }}">Event History</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('main.view_tickets') }}">Tickets</a></li>
               {% if event %}
               <li><a class="dropdown-item" href="{{ url_for('main.view_event', event_id=event.id) }}">View Event</a></li>
               {% else %}
