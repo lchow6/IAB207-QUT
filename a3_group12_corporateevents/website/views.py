@@ -13,11 +13,9 @@ main_bp = Blueprint('main', __name__)
 @main_bp.route('/')
 def index():
     login_form = LoginForm()
-
     # Fetch a sample event to pass (for example the most recent)
-    event = db.session.query(Event).order_by(Event.id.desc()).first()
-
-    return render_template('index.html', login_form=login_form, event=event)
+    events = Event.query.order_by(Event.checkin_date.desc()).limit(4).all()
+    return render_template('index.html', login_form=login_form, events=events)
 
 
 @main_bp.route('/createevent', methods=['GET', 'POST'])
