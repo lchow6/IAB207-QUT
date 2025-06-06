@@ -6,6 +6,8 @@ from .extensions import db
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
+from website.forms import EditProfileForm
+
 
 
 main_bp = Blueprint('main', __name__)
@@ -13,9 +15,18 @@ main_bp = Blueprint('main', __name__)
 @main_bp.route('/')
 def index():
     login_form = LoginForm()
-    # Fetch a sample event to pass (for example the most recent)
-    events = Event.query.order_by(Event.checkin_date.desc()).limit(4).all()
-    return render_template('index.html', login_form=login_form, events=events)
+    selected_type = request.args.get('event_type')
+
+    if selected_type:
+        events = Event.query.filter_by(event_type=selected_type).order_by(Event.checkin_date.desc()).all()
+    else:
+        events = Event.query.order_by(Event.checkin_date.desc()).limit(4).all()
+
+    event_types = db.session.query(Event.event_type).distinct().all()
+    event_types = [et[0] for et in event_types]
+
+    return render_template('index.html', login_form=login_form, events=events, event_types=event_types, selected_type=selected_type)
+
 
 
 @main_bp.route('/createevent', methods=['GET', 'POST'])
@@ -122,10 +133,24 @@ def view_event(event_id):
     return render_template('viewevent.html', event=event, login_form=login_form)
 
 
-@main_bp.route('/user')
+@main_bp.route('/user', methods=['GET', 'POST'])
 @login_required
 def user():
-    return render_template('profile.html', user=current_user)
+    form = EditProfileForm(obj=current_user)  # Pre-fill with current user info
+
+    if form.validate_on_submit():
+        current_user.first_name = form.first_name.data
+        current_user.last_name = form.last_name.data
+        current_user.user_name = form.user_name.data
+        current_user.contact = form.contact.data
+        current_user.address = form.address.data
+
+        db.session.commit()
+        flash("Profile updated successfully!", "success")
+        return redirect(url_for('main.user'))
+
+    return render_template('profile.html', form=form, user=current_user)
+
 
 
 

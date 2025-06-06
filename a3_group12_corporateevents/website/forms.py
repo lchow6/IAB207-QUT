@@ -60,3 +60,10 @@ class EventForm(FlaskForm):
 
     submit = SubmitField('Create Event')
 
+class EditProfileForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired(), Length(max=50)])
+    last_name = StringField('Last Name', validators=[DataRequired(), Length(max=50)])
+    user_name = StringField('Username', validators=[DataRequired(), Length(max=50)])
+    contact = StringField('Contact', validators=[Length(max=20)])
+    address = StringField('Address', validators=[Length(max=255)])
+    submit = SubmitField('Update Profile')
