@@ -44,8 +44,8 @@
               <li><a class="dropdown-item" href="{{ url_for('main.user') }}">Profile</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.event_history') }}">Event History</a></li>
               <li><a class="dropdown-item" href="{{ url_for('main.view_tickets') }}">Tickets</a></li>
-              {% if event %}
-              <li><a class="dropdown-item" href="{{ url_for('main.view_event', event_id=event.id) }}">View Event</a></li>
+              {% if events and events|length > 0 %}
+              <li><a class="dropdown-item" href="{{ url_for('main.view_event', event_id=events[0].id) }}">View Event</a></li>
               {% else %}
               <li><span class="dropdown-item text-muted">No Events Available</span></li>
               {% endif %}
@@ -216,92 +216,52 @@
 
       <!-- Event Cards (Changeable Cateogrize Events) -->
         <div class="container py-5">
-          <div class="d-flex align-items-center gap-3 mb-4">
-            <h2 class="text-left fw-bold mb-0">I want to see Event Type:</h2>
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle selecttypedrop" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Networking
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item dropdown-menu-homepage">Conference</a></li>
-                <li><a class="dropdown-item dropdown-menu-homepage">Seminar</a></li>
-                <li><a class="dropdown-item dropdown-menu-homepage">Board Meetings</a></li>
-              </ul>
-            </div>
-          </div>
+          <h2 class="text-left fw-bold mb-4">Upcoming Events</h2>
 
+          {% if events %}
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-
+            {% for event in events %}
             <div class="col">
               <div class="card shadow-sm border-0">
-                <img src="{{ url_for('static', filename='img/business_test.jpg')}}" class="card-img-top" alt="business_test.jpg">
+                {% if event.file_name %}
+                <img src="{{ url_for('static', filename='upload/' + event.file_name) }}" class="card-img-top" alt="{{ event.event_name }}">
+                {% else %}
+                <img src="{{ url_for('static', filename='img/default-event.jpg') }}" class="card-img-top" alt="Default Image">
+                {% endif %}
                 <div class="card-body text-start">
-                  <h5 class="card-title fw-bold">Big Meet Conventions</h5>
-                  <p class="card-text">Join us for an evening of meeting new industry professionals.</p>
-                  <p class="card-text"><strong>Date & Time:</strong> April 2, 2025, 11:00 AM</p>
+                  <h5 class="card-title fw-bold">{{ event.event_name }}</h5>
+                  <p class="card-text">{{ event.description[:100] }}...</p>
                   <p class="card-text">
-                    <strong>Status:</strong> <span class="badge bg-success">OPEN</span>
+                    <strong>Date & Time:</strong>
+                    {{ event.checkin_date.strftime('%B %d, %Y') }} at {{ event.checkin_time.strftime('%I:%M %p') }}
                   </p>
-                  <a href="viewevent.html">
-                    <button type="button" class="btn btn-primary">Get Tickets</button>
+                  <p class="card-text">
+                    <strong>Status:</strong>
+                    {% if event.status == 'Open' %}
+                      <span class="badge bg-success">OPEN</span>
+                    {% elif event.status == 'Cancelled' %}
+                      <span class="badge bg-danger">CANCELLED</span>
+                    {% elif event.status == 'Sold Out' %}
+                      <span class="badge bg-warning">SOLD OUT</span>
+                    {% else %}
+                      <span class="badge bg-secondary">{{ event.status.upper() }}</span>
+                    {% endif %}
+                  </p>
+                  <a href="{{ url_for('main.view_event', event_id=event.id) }}">
+                    <button type="button" class="btn btn-primary" {% if event.status != 'Open' %}disabled{% endif %}>Get Tickets</button>
                   </a>
                 </div>
               </div>
             </div>
-    
-        
-            <div class="col">
-              <div class="card shadow-sm border-0">
-                <img src="{{ url_for('static', filename='img/dxcnetowrkingimg.jpg')}}" class="card-img-top" alt="dxcnetowrkingimg.jpg">
-                <div class="card-body text-start">
-                  <h5 class="card-title fw-bold">DXC Tech Networking</h5>
-                  <p class="card-text">Join us for for a advanced netowrking with high-end career profeesionals.</p>
-                  <p class="card-text"><strong>Date & Time:</strong> April 2, 2025, 15:00 PM</p>
-                  <p class="card-text">
-                    <strong>Status:</strong> <span class="badge bg-success">OPEN</span>
-                  </p>
-                  <a href="viewevent.html">
-                    <button type="button" class="btn btn-primary">Get Tickets</button>
-                  </a>
-                </div>
-              </div>
-            </div>
-        
-            <div class="col">
-              <div class="card shadow-sm border-0">
-                <img src="{{ url_for('static', filename='img/ziasnblou.jpg')}}" class="card-img-top" alt="ziasnblou.jpg">
-                <div class="card-body text-start">
-                  <h5 class="card-title fw-bold">Hood Research Department</h5>
-                  <p class="card-text">Expand your knowledge and Netowrk with the socrates and plato of today.</p>
-                  <p class="card-text"><strong>Date & Time:</strong> April 2, 2025, 11:00 AM</p>
-                  <p class="card-text">
-                    <strong>Status:</strong> <span class="badge bg-secondary">INACTIVE</span>
-                  </p>
-                  <a href="viewevent.html">
-                    <button type="button" class="btn btn-primary">Get Tickets</button>
-                  </a>
-                </div>
-              </div>
-            </div>
-        
-            <div class="col">
-              <div class="card shadow-sm border-0">
-                <img src="{{ url_for('static', filename='img/azuresky.png')}}" class="card-img-top" alt="azuresky.png">
-                <div class="card-body text-start">
-                  <h5 class="card-title fw-bold">Azure Sky Networking Event</h5>
-                  <p class="card-text">Connect with industry leaders at Azure Skys networking this afternoon</p>
-                  <p class="card-text"><strong>Date & Time:</strong> April 2, 2025, 11:00 AM</p>
-                  <p class="card-text">
-                    <strong>Status:</strong> <span class="badge bg-warning">SOLD OUT</span>
-                  </p>
-                  <a>
-                    <button type="button" class="btn btn-primary" disabled >Get Tickets</button>
-                  </a>
-                </div>
-              </div>
-            </div>
+            {% endfor %}
           </div>
+          {% else %}
+            <div class="text-center text-muted fs-5 mt-4">
+              Events are not available
+            </div>
+          {% endif %}
         </div>
+
     
 
 
