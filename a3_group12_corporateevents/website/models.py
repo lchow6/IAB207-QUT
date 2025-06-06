@@ -1,7 +1,7 @@
 from . import db
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timezone
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users' 
@@ -20,16 +20,18 @@ class Booking(db.Model):
     __tablename__ = 'bookings'
 
     id = db.Column(db.Integer, primary_key=True)
-    booking_date = db.Column(db.DateTime, default=datetime)
+    booking_date = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     total_price = db.Column(db.Float, nullable=False)
-
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
 
     tickets = db.relationship('Ticket', backref='booking', lazy=True)
 
     def __repr__(self):
-        return f"<Booking {self.id}: User {self.user_id}, Event {self.event_id}, Date {self.booking_date}, Total ${self.total_price:.2f}>"
+        return (
+            f"<Booking {self.id}: User {self.user_id}, Event {self.event_id}, "
+            f"Date {self.booking_date}, Total ${self.total_price:.2f}>"
+        )
 
 
 class Event(db.Model):

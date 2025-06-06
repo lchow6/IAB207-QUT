@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, current_app
+from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash
 from flask_login import login_required, current_user
 from .forms import EventForm, LoginForm
 from .models import Event, Ticket, Booking  
@@ -73,11 +73,56 @@ def view_events():
     events = Event.query.all()
     return render_template('viewevents.html', events=events)
 
-@main_bp.route('/viewevent/<int:event_id>')
+@main_bp.route('/viewevent/<int:event_id>', methods=['GET', 'POST'])
+@login_required
 def view_event(event_id):
-    event = db.session.get(Event, event_id)
-    login_form = LoginForm()
+    event = Event.query.get_or_404(event_id)
+    login_form = LoginForm() 
+    event = Event.query.get_or_404(event_id)
+
+    if request.method == 'POST':
+        ticket_type = request.form.get('ticket_type')
+        quantity = int(request.form.get('quantity'))
+        
+        # Pricing logic
+        if ticket_type == 'General Access':
+            price = 50
+        elif ticket_type == 'Deluxe Access':
+            price = 80
+        elif ticket_type == 'V.I.P Access':
+            price = 120
+        else:
+            flash("Invalid ticket type selected.", "danger")
+            return redirect(url_for('main.view_event', event_id=event.id))
+
+        total_price = price * quantity
+
+        # Create booking
+        booking = Booking(
+            user_id=current_user.id,
+            event_id=event.id,
+            total_price=total_price
+        )
+        db.session.add(booking)
+        db.session.commit()
+
+        # Create tickets
+        for _ in range(quantity):
+            ticket = Ticket(
+                booking_id=booking.id,
+                event_id=event.id,
+                price=price,
+                seat_number=None,  # optional, or random
+                ticket_type=ticket_type
+            )
+            db.session.add(ticket)
+        
+        db.session.commit()
+        flash("Tickets booked successfully!", "success")
+        return redirect(url_for('main.view_tickets'))
+
     return render_template('viewevent.html', event=event, login_form=login_form)
+
 
 @main_bp.route('/user')
 def user():
