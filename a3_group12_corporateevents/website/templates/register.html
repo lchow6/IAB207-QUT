@@ -11,38 +11,11 @@
 
 <body style="background-color: #ffffff;"> 
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg shadow-lg p-2 border-bottom border-white" style="background-color: #17a5d5;">
-    <div class="container-fluid">
-      <a class="navbar-brand text-white fw-bold d-flex align-items-center" href="{{ url_for('main.index') }}">
-        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" width="40" height="40" class="me-2">
-        CorporateEvents
-      </a>
-      <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{{ url_for('main.index') }}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="#">Contact Us</a>
-          </li>
-        </ul>
-        <div class="d-flex">
-          <a href="{{ url_for('main.create_event') }}" class="btn btn-outline-light me-2">Create Event</a>
-          <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light me-2">Login</a>
-          <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Sign Up</a>
-        </div>
-      </div>
-    </div>
-  </nav>
-
   <!-- Registration Form -->
+  {% extends 'base.html' %}
+
+  {% block content %}
+  
   <main>
     <div class="container mt-5 accountregistration-form">
       <h2 class="mb-4">Account Registration Form</h2>
@@ -94,5 +67,6 @@
       </form>
     </div>
   </main>
+  {% endblock %}
 </body>
 </html>
