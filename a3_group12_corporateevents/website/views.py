@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, curren
 from flask_login import login_required, current_user
 from .forms import EventForm, LoginForm
 from .models import Event, Ticket, Booking  
-from . import db
+from .extensions import db
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
@@ -123,9 +123,10 @@ def view_event(event_id):
 
 
 @main_bp.route('/user')
+@login_required
 def user():
-    login_form = LoginForm()
-    return render_template('user.html', login_form=login_form, heading='Login')
+    return render_template('profile.html', user=current_user)
+
 
 
 @main_bp.route('/eventhistory')
