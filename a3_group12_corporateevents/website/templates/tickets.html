@@ -2,39 +2,43 @@
 {% block content %}
 
 <div class="container my-5">
-  <h2 class="fw-bold mb-4 text-center">Your Tickets</h2>
+  <h2 class="text-center fw-bold mb-4">Your Tickets</h2>
 
-  {% if tickets %}
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-      {% for ticket in tickets %}
-        <div class="col">
-          <div class="card shadow-sm border-0 h-100">
-            <div class="card-header bg-light d-flex justify-content-between align-items-center">
-              <span class="fw-bold text-uppercase text-secondary">{{ ticket.ticket_type }}</span>
-              <span class="badge bg-success">{{ ticket.event.status }}</span>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title fw-bold">{{ ticket.event.event_name }}</h5>
-              <p class="mb-1"><strong>Event Type:</strong> {{ ticket.event.event_type }}</p>
-              <p class="mb-1"><strong>Seat:</strong> {{ ticket.seat_number or "General Admission" }}</p>
-              <p class="mb-1"><strong>Price:</strong> ${{ "%.2f"|format(ticket.price) }}</p>
-              <p class="mb-1"><strong>Date:</strong> {{ ticket.event.checkin_date.strftime('%B %d, %Y') }}</p>
-              <p class="mb-1"><strong>Time:</strong> {{ ticket.event.checkin_time.strftime('%I:%M %p') }}</p>
-              <a href="{{ url_for('main.view_event', event_id=ticket.event.id) }}" class="btn btn-outline-primary btn-sm mt-2">View Event</a>
-            </div>
-            <div class="card-footer text-muted small">
-              Booking ID: {{ ticket.booking_id }} | Event ID: {{ ticket.event_id }}
-            </div>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+    {% for group in ticket_groups %}
+      <div class="col">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <span class="fw-bold text-uppercase">{{ group.ticket_type }}</span>
+            <span class="badge bg-{{ 'success' if group.event.status == 'Open' else 'secondary' }}">{{ group.event.status }}</span>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ group.event.event_name }}</h5>
+            <p><strong>Event Type:</strong> {{ group.event.event_type }}</p>
+            <p><strong>Seat:</strong> General Admission</p>
+            <p><strong>Price:</strong> ${{ "%.2f"|format(group.price) }}</p>
+            <p><strong>Quantity:</strong> {{ group.quantity }} ticket{{ 's' if group.quantity > 1 }}</p>
+
+            {% if group.tickets %}
+              <p><strong>Attendees:</strong></p>
+              <ul class="ps-3 mb-2">
+                {% for ticket in group.tickets %}
+                  <li>{{ ticket.attendee_name }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            <p><strong>Date:</strong> {{ group.event.checkin_date.strftime('%B %d, %Y') }}</p>
+            <p><strong>Time:</strong> {{ group.event.checkin_time.strftime('%I:%M %p') }}</p>
+            <a href="{{ url_for('main.view_event', event_id=group.event.id) }}" class="btn btn-outline-primary btn-sm">View Event</a>
+          </div>
+          <div class="card-footer text-muted small">
+            Booking ID: {{ group.booking_id }} | Event ID: {{ group.event.id }}
           </div>
         </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <div class="text-center mt-5">
-      <p class="text-muted">You haven't booked any tickets yet.</p>
-      <a href="{{ url_for('main.index') }}" class="btn btn-primary">Browse Events</a>
-    </div>
-  {% endif %}
+      </div>
+    {% endfor %}
+  </div>
 </div>
 
 {% endblock %}

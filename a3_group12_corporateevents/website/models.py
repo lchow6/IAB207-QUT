@@ -70,6 +70,7 @@ class Ticket(db.Model):
     price = db.Column(db.Float, nullable=False)
     seat_number = db.Column(db.String(10), nullable=True)
     ticket_type = db.Column(db.String(50), nullable=False)
+    attendee_name = db.Column(db.String(100), nullable=True)
 
     def __repr__(self):
         return f"<Ticket {self.id}: Event {self.event_id}, Booking {self.booking_id}, ${self.price:.2f}, Seat {self.seat_number or 'N/A'}>"

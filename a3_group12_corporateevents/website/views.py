@@ -5,6 +5,7 @@ from .models import Event, Ticket, Booking
 from . import db
 from datetime import datetime
 from werkzeug.utils import secure_filename
+from collections import defaultdict
 import os
 
 
@@ -75,13 +76,18 @@ def view_events():
 @login_required
 def view_event(event_id):
     event = Event.query.get_or_404(event_id)
-    login_form = LoginForm() 
-    event = Event.query.get_or_404(event_id)
+    login_form = LoginForm()
 
     if request.method == 'POST':
         ticket_type = request.form.get('ticket_type')
-        quantity = int(request.form.get('quantity'))
-        
+        attendee_names = request.form.get('attendee_names', '').strip().split('\n')
+        attendee_names = [name.strip() for name in attendee_names if name.strip()]
+        quantity = len(attendee_names)
+
+        if quantity == 0:
+            flash("Please enter at least one attendee name.", "warning")
+            return redirect(url_for('main.view_event', event_id=event.id))
+
         # Pricing logic
         if ticket_type == 'General Access':
             price = 50
@@ -104,17 +110,18 @@ def view_event(event_id):
         db.session.add(booking)
         db.session.commit()
 
-        # Create tickets
-        for _ in range(quantity):
+        # Create tickets with attendee names
+        for name in attendee_names:
             ticket = Ticket(
                 booking_id=booking.id,
                 event_id=event.id,
                 price=price,
-                seat_number=None,  # optional, or random
-                ticket_type=ticket_type
+                seat_number=None,
+                ticket_type=ticket_type,
+                attendee_name=name  
             )
             db.session.add(ticket)
-        
+
         db.session.commit()
         flash("Tickets booked successfully!", "success")
         return redirect(url_for('main.view_tickets'))
@@ -176,16 +183,37 @@ def cancel_event(event_id):
     db.session.commit()
     return redirect(url_for('main.event_history'))
 
+from collections import defaultdict
+
 @main_bp.route('/tickets')
 @login_required
 def view_tickets():
-    user_tickets = (
+    all_tickets = (
         db.session.query(Ticket)
         .join(Booking)
         .filter(Booking.user_id == current_user.id)
         .all()
     )
-    return render_template('tickets.html', tickets=user_tickets)
+
+    grouped = defaultdict(list)
+    for ticket in all_tickets:
+        key = (ticket.event_id, ticket.ticket_type)
+        grouped[key].append(ticket)
+
+    ticket_groups = []
+    for (event_id, ticket_type), tickets in grouped.items():
+        event = tickets[0].event
+        booking_id = tickets[0].booking_id
+        ticket_groups.append({
+            'event': event,
+            'ticket_type': ticket_type,
+            'price': tickets[0].price,
+            'quantity': len(tickets),
+            'booking_id': booking_id,
+            'tickets': tickets  
+        })
+
+    return render_template('tickets.html', ticket_groups=ticket_groups)
 
 
 
