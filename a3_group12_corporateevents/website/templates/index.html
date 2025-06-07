@@ -173,6 +173,9 @@
                     {{ event.checkin_date.strftime('%B %d, %Y') }} at {{ event.checkin_time.strftime('%I:%M %p') }}
                   </p>
                   <p class="card-text">
+                    <strong>Tickets Sold:</strong> {{ event.tickets_sold() }}
+                  </p>
+                  <p class="card-text">
                     <strong>Status:</strong>
                     {% if event.status == 'Open' %}
                       <span class="badge bg-success">OPEN</span>

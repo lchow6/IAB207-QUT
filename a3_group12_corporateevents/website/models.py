@@ -52,12 +52,16 @@ class Event(db.Model):
     tickets = db.relationship('Ticket', backref='event', lazy=True)
     reviews = db.relationship('Review', backref='event', lazy=True)
 
-    # Asscoiate the event with a user
+    # Associate the event with a user
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     owner = db.relationship('User', backref='events', lazy=True)
 
+    def tickets_sold(self):
+        return len(self.tickets)
+
     def __repr__(self):
         return f"<Event {self.id}: {self.event_name} ({self.event_type}) - Status: {self.status}>"
+
 
 
 
@@ -70,6 +74,7 @@ class Ticket(db.Model):
     price = db.Column(db.Float, nullable=False)
     seat_number = db.Column(db.String(10), nullable=True)
     ticket_type = db.Column(db.String(50), nullable=False)
+    attendee_name = db.Column(db.String(100), nullable=True)
 
     def __repr__(self):
         return f"<Ticket {self.id}: Event {self.event_id}, Booking {self.booking_id}, ${self.price:.2f}, Seat {self.seat_number or 'N/A'}>"

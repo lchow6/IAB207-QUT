@@ -60,49 +60,50 @@
           </div>
       
           <!-- Buy Tickets Container -->
-          <div class="col-lg-4 col-md-12">
-            <div class="p-4 shadow-sm bg-white rounded">
-              <h2 class="mb-4"><strong>Tickets</strong></h2>
+        <div class="col-lg-4 col-md-12">
+          <div class="p-4 shadow-sm bg-white rounded">
+            <h2 class="mb-4"><strong>Tickets</strong></h2>
 
-              <div class="ticket-card mb-4">
-                <h5>General Access</h5>
-                <p>Price: $50</p>
-                <p>Includes access to all sessions and networking events.</p>
-              </div>
-
-              <div class="ticket-card mb-4">
-                <h5>Deluxe Access</h5>
-                <p>Price: $80</p>
-                <p>Access to sessions + Meet industry professionals.</p>
-              </div>
-
-              <div class="ticket-card mb-4">
-                <h5>V.I.P Access</h5>
-                <p>Price: $120</p>
-                <p>All-access + private networking lounge + swag bag.</p>
-              </div>
-
-              <h3 class="mt-5 mb-3"><strong>Buy Tickets</strong></h3>
-
-              <form method="POST">
-                <div class="mb-3">
-                  <label for="ticketType" class="form-label">Ticket Type</label>
-                  <select id="ticketType" name="ticket_type" class="form-select" required>
-                    <option value="General Access">General Access</option>
-                    <option value="Deluxe Access">Deluxe Access</option>
-                    <option value="V.I.P Access">V.I.P Access</option>
-                  </select>
-                </div>
-
-                <div class="mb-3">
-                  <label for="ticketCount" class="form-label">Number of Tickets</label>
-                  <input type="number" id="ticketCount" name="quantity" class="form-control" min="1" value="1" required>
-                </div>
-
-                <button type="submit" class="btn btn-primary w-100">Book Now</button>
-              </form>
+            <div class="ticket-card mb-4">
+              <h5>General Access</h5>
+              <p>Price: $50</p>
+              <p>Includes access to all sessions and networking events.</p>
             </div>
+
+            <div class="ticket-card mb-4">
+              <h5>Deluxe Access</h5>
+              <p>Price: $80</p>
+              <p>Access to sessions + Meet industry professionals.</p>
+            </div>
+
+            <div class="ticket-card mb-4">
+              <h5>V.I.P Access</h5>
+              <p>Price: $120</p>
+              <p>All-access + private networking lounge + swag bag.</p>
+            </div>
+
+            <h3 class="mt-5 mb-3"><strong>Buy Tickets</strong></h3>
+            <form method="POST">
+              <div class="mb-3">
+                <label for="ticket_type" class="form-label">Ticket Type</label>
+                <select name="ticket_type" class="form-select" required>
+                  <option value="General Access">General Access</option>
+                  <option value="Deluxe Access">Deluxe Access</option>
+                  <option value="V.I.P Access">V.I.P Access</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="attendee_names" class="form-label">Enter Attendee Names (one per line)</label>
+                <textarea name="attendee_names" class="form-control" rows="5" required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">Book Now</button>
+            </form>
+
           </div>
+        </div>
+
 
       
       <!-- Comments Section -->
