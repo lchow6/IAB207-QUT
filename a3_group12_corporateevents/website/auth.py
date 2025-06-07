@@ -4,7 +4,7 @@ from flask_login import login_user, login_required, logout_user
 from .models import User
 from .forms import LoginForm, RegisterForm
 from . import bcrypt 
-from . import db
+from .extensions import db
 # Create a blueprint - make sure all BPs have unique names
 auth_bp = Blueprint('auth', __name__)
 
@@ -43,7 +43,8 @@ def login():
         else:
             flash(error)
 
-    return render_template('user.html', form=login_form, login_form=login_form, heading='Login')
+    return render_template('user.html', login_form=login_form, heading='Login')
+
 
 
 

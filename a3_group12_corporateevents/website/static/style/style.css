@@ -299,3 +299,24 @@ body {
   border-radius: 8px;
   padding-bottom: 10px;
 }
+
+/* === BLACK NAVBAR BUTTONS WITH HOVER === */
+.btn-login,
+.btn-navcreateevent,
+.dropdown-toggle {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: none;
+  font-weight: bold;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-login:hover,
+.btn-navcreateevent:hover,
+.dropdown-toggle:hover {
+  background-color: darkgoldenrod !important;  /* Cyan-like hover */
+  color: #ffffff !important;
+}
+

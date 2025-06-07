@@ -1,4 +1,5 @@
-from website import create_app, db
+from website import create_app
+from website.extensions import db
 
 if __name__ == '__main__':
     app = create_app()

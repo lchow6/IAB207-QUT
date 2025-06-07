@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% from "bootstrap5/form.html" import render_form %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">My Profile</h2>
+
+  <form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ form.first_name.label }} {{ form.first_name(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.last_name.label }} {{ form.last_name(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.user_name.label }} {{ form.user_name(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.contact.label }} {{ form.contact(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.address.label }} {{ form.address(class="form-control") }}
+    </div>
+
+    {{ form.submit(class="btn btn-primary") }}
+  </form>
+</div>
+{% endblock %}
