@@ -11,11 +11,12 @@ import os
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
-def index():
+def index():    
     login_form = LoginForm()
     # Fetch a sample event to pass (for example the most recent)
-    events = Event.query.order_by(Event.checkin_date.desc()).limit(4).all()
-    return render_template('index.html', login_form=login_form, events=events)
+    promotions = Event.query.order_by(Event.checkin_date.desc()).limit(4).all()
+    events = Event.query.filter(Event.checkin_date >= datetime.now()).order_by(Event.checkin_date.asc()).all()
+    return render_template('index.html', login_form=login_form, promotions=promotions, events=events)
 
 
 @main_bp.route('/createevent', methods=['GET', 'POST'])
@@ -150,13 +151,14 @@ def edit_event(event_id):
         event.event_type = form.event_type.data
         event.checkin_date = datetime.combine(form.checkin_date.data, form.checkin_time.data)
         event.checkout_date = datetime.combine(form.checkout_date.data, form.checkout_time.data)
-        event.checkin_time = form.checkin_time.data
-        event.checkout_time = form.checkout_time.data
+        event.checkin_time = datetime.combine(form.checkin_date.data, form.checkin_time.data)
+        event.checkout_time = datetime.combine(form.checkout_date.data, form.checkout_time.data)
+        event.status = form.status.data
 
         file = form.upload.data
         if file and file.filename:
             filename = secure_filename(file.filename)
-            path = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')), 'static', 'upload', filename)
+            path = os.path.join(current_app.root_path, 'static', 'upload', filename)
             os.makedirs(os.path.dirname(path), exist_ok=True)
             file.save(path)
             event.file_name = filename

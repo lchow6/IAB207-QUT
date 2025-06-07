@@ -146,72 +146,51 @@
       </div>
     </div>
 
-    <!-- Event Cards (Upcoming Events) -->
+    <!-- Event Cards (Promotions) -->
     <div class="container py-5">
-      <h2 class="text-left fw-bold mb-4">Upcoming Events</h2>
+      <h2 class="text-left fw-bold mb-4">Promotions</h2>
+      {% if promotions %}
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-        
+        {% for event in promotions %}
         <div class="col">
           <div class="card shadow-sm border-0">
-            <img src="{{ url_for('static', filename='img/business_test.jpg')}}" class="card-img-top" alt="business_test.jpg">
+            {% if event.file_name %}
+            <img src="{{ url_for('static', filename='upload/' + event.file_name) }}" class="card-img-top" alt="{{ event.event_name }}">
+            {% else %}
+            <img src="{{ url_for('static', filename='img/default-event.jpg') }}" class="card-img-top" alt="Default Image">
+            {% endif %}
             <div class="card-body text-start">
-              <h5 class="card-title fw-bold">Big Meet Conventions</h5>
-              <p class="card-text">Join us for an evening of meeting new industry professionals.</p>
-              <p class="card-text"><strong>Date & Time:</strong> April 2, 2025, 11:00 AM</p>
+              <h5 class="card-title fw-bold">{{ event.event_name }}</h5>
+              <p class="card-text">{{ event.description[:100] }}...</p>
               <p class="card-text">
-                <strong>Status:</strong> <span class="badge bg-success">OPEN</span>
+                <strong>Date & Time:</strong>
+                {{ event.checkin_date.strftime('%B %d, %Y') }} at {{ event.checkin_time.strftime('%I:%M %p') }}
               </p>
-              <button type="button" class="btn btn-primary">Get Tickets</button>
+              <p class="card-text">
+                <strong>Status:</strong>
+                {% if event.status == 'Open' %}
+                  <span class="badge bg-success">OPEN</span>
+                {% elif event.status == 'Cancelled' %}
+                  <span class="badge bg-danger">CANCELLED</span>
+                {% elif event.status == 'Sold Out' %}
+                  <span class="badge bg-warning">SOLD OUT</span>
+                {% else %}
+                  <span class="badge bg-secondary">{{ event.status.upper() }}</span>
+                {% endif %}
+              </p>
+              <a href="{{ url_for('main.view_event', event_id=event.id) }}">
+                <button type="button" class="btn btn-primary" {% if event.status != 'Open' %}disabled{% endif %}>Get Tickets</button>
+              </a>
             </div>
           </div>
         </div>
-
-    
-        <div class="col">
-          <div class="card shadow-sm border-0">
-            <img src="{{ url_for('static', filename='img/xpeng-car-img.jpg')}}" class="card-img-top" alt="xpeng-car-img.jpg">
-            <div class="card-body text-start">
-              <h5 class="card-title fw-bold">XPENG Special Seminar</h5>
-              <p class="card-text">Join us for an evening of meeting new industry professionals.</p>
-              <p class="card-text"><strong>Date & Time:</strong> April 2, 2025, 11:00 AM</p>
-              <p class="card-text">
-                <strong>Status:</strong> <span class="badge bg-danger">CANCELLED</span>
-              </p>
-              <button type="button" class="btn btn-primary" disabled >Get Tickets</button>
-            </div>
-          </div>
-        </div>
-    
-        <div class="col">
-          <div class="card shadow-sm border-0">
-            <img src="{{ url_for('static', filename='img/ehealth-innovation-img.jpg')}}" class="card-img-top" alt="ehealth-innovation-img.jpg">
-            <div class="card-body text-start">
-              <h5 class="card-title fw-bold">eHealth Seminar</h5>
-              <p class="card-text">Join us for an evening for the future of eHealth</p>
-              <p class="card-text"><strong>Date & Time:</strong> April 2, 2025, 11:00 AM</p>
-              <p class="card-text">
-                <strong>Status:</strong> <span class="badge bg-secondary">INACTIVE</span>
-              </p>
-              <button type="button" class="btn btn-primary" disabled>Get Tickets</button>
-            </div>
-          </div>
-        </div>
-    
-        <div class="col">
-          <div class="card shadow-sm border-0">
-            <img src="{{ url_for('static', filename='img/taylor-intelligence-image.jpg')}}" class="card-img-top" alt="taylor-intelligence-image.jpg">
-            <div class="card-body text-start">
-              <h5 class="card-title fw-bold">Taylor Intelligence Seminar</h5>
-              <p class="card-text">Join in the future of technologies with Taylor Intelligence</p>
-              <p class="card-text"><strong>Date & Time:</strong> April 2, 2025, 11:00 AM</p>
-              <p class="card-text">
-                <strong>Status:</strong> <span class="badge bg-warning">SOLD OUT</span>
-              </p>
-              <button type="button" class="btn btn-primary" disabled>Get Tickets</button>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
       </div>
+      {% else %}
+      <div class="text-center text-muted fs-5 mt-4">
+        No promotions available.
+      </div>
+      {% endif %}
     </div>
 
       <!-- Event Cards (Changeable Cateogrize Events) -->

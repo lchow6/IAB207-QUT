@@ -95,23 +95,27 @@
           <!-- View Event Container -->
           <div class="col-lg-8 col-md-12">
             <div class="p-4 shadow-sm bg-white rounded">
-              <h1 class="mb-3"><strong>Big Meet Conventions</strong></h1>
-              <h1 class="mb-3"><strong>{{ event.event_name }}</strong></h1>
-              <p class="mb-3">{{ event.description }}</p>
-              <p><strong>Event Type:</strong> {{ event.event_type }}</p>
-              <p><strong>Time:</strong> {{ event.checkin_time.strftime('%I:%M %p') }} - {{ event.checkout_time.strftime('%I:%M %p') }}</p>
-              <p><strong>Date:</strong> {{ event.checkin_date.strftime('%d %B %Y') }}</p>
-              <p><strong>Status:</strong> {{ event.status }}</p>
-              <p><strong>Location:</strong> 123 Hoodville Avenue, Kunal's Dungeon, Rajasthan, India</p>
-      
+            <h1 class="mb-3">{{ event.event_name }}</h1>
+            {% if event.file_name %}
+            <img src="{{ url_for('static', filename='upload/' + event.file_name) }}" class="img-fluid rounded mb-4" alt="{{ event.event_name }}">
+            {% else %}
+            <img src="{{ url_for('static', filename='img/default-event.jpg') }}" class="img-fluid rounded mb-4" alt="Default Event">
+            {% endif %}
+            <p>{{ event.description }}</p>
+            <p><strong>Event Type:</strong> {{ event.event_type }}</p>
+            <p><strong>Date:</strong> {{ event.checkin_date.strftime('%d %B %Y') }}</p>
+            <p><strong>Time:</strong> {{ event.checkin_time.strftime('%I:%M %p') }} - {{ event.checkout_time.strftime('%I:%M %p') }}</p>
+            <p><strong>Status:</strong> {{ event.status }}</p>
+            <p><strong>Location:</strong> {{ event.owner.address }}</p>
+
+            <!-- Event Creator -->
               <div class="mt-4">
                 <h2><strong>Event Creator</strong></h2>
                 <div class="d-flex flex-wrap align-items-center gap-3 mt-3">
                   <img src="img/big-meet-logo.png" alt="Avatar" class="rounded-circle" width="80" height="80">
                   <div>
-                    <p><strong>Company:</strong> Big Meet</p>
-                    <p><strong>Name:</strong> Kunal Sharma</p>
-                    <p><strong>Subscribers:</strong> 8.2k</p>
+                    <p><strong>Name:</strong> {{ event.owner.first_name }} {{ event.owner.last_name }}</p>
+                    <p><strong>Email:</strong> {{ event.owner.email }}</p>
                   </div>
                   <div class="ms-auto d-flex gap-2">
                     <button type="button" class="btn btn-primary">Contact</button>
