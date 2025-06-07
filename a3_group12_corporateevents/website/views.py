@@ -215,5 +215,12 @@ def view_tickets():
 
     return render_template('tickets.html', ticket_groups=ticket_groups)
 
+@main_bp.route('/admin/events')
+@login_required
+def admin_events():
+    events = Event.query.all()
+    return render_template("admin_events.html", events=events)
+
+
 
 

@@ -18,6 +18,9 @@
             <p><strong>Seat:</strong> General Admission</p>
             <p><strong>Price:</strong> ${{ "%.2f"|format(group.price) }}</p>
             <p><strong>Quantity:</strong> {{ group.quantity }} ticket{{ 's' if group.quantity > 1 }}</p>
+            <p><strong>Tickets Sold:</strong> {{ group.event.tickets_sold() }}</p>
+
+
 
             {% if group.tickets %}
               <p><strong>Attendees:</strong></p>
