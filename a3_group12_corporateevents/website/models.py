@@ -88,7 +88,9 @@ class Review(db.Model):
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.Text, nullable=True)
-    review_date = db.Column(db.DateTime, default=datetime)
+    review_date = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    user = db.relationship('User', backref='reviews', lazy=True)
 
     def __repr__(self):
         return f"<Review {self.id}: User {self.user_id}, Event {self.event_id}, Rating {self.rating}>"

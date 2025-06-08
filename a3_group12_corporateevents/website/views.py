@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash
 from flask_login import login_required, current_user
 from .forms import EventForm, LoginForm
-from .models import Event, Ticket, Booking  
+from .models import Event, Ticket, Booking , Review
 from .extensions import db
 from datetime import datetime
 from werkzeug.utils import secure_filename
@@ -91,54 +91,70 @@ def view_event(event_id):
     login_form = LoginForm()
 
     if request.method == 'POST':
-        ticket_type = request.form.get('ticket_type')
-        attendee_names = request.form.get('attendee_names', '').strip().split('\n')
-        attendee_names = [name.strip() for name in attendee_names if name.strip()]
-        quantity = len(attendee_names)
-
-        if quantity == 0:
-            flash("Please enter at least one attendee name.", "warning")
+        if 'review_comment' in request.form:
+            # 🔁 Handle comment submission first
+            comment = request.form.get('review_comment')
+            if comment.strip():
+                review = Review(
+                    user_id=current_user.id,
+                    event_id=event.id,
+                    comment=comment.strip(),
+                    rating=5  # Static rating for now
+                )
+                db.session.add(review)
+                db.session.commit()
+                flash("Your comment has been posted!", "success")
             return redirect(url_for('main.view_event', event_id=event.id))
 
-        # Pricing logic
-        if ticket_type == 'General Access':
-            price = 50
-        elif ticket_type == 'Deluxe Access':
-            price = 80
-        elif ticket_type == 'V.I.P Access':
-            price = 120
-        else:
-            flash("Invalid ticket type selected.", "danger")
-            return redirect(url_for('main.view_event', event_id=event.id))
+        elif 'ticket_type' in request.form:
+            # 🧾 Handle ticket booking
+            ticket_type = request.form.get('ticket_type')
+            attendee_names = request.form.get('attendee_names', '').strip().split('\n')
+            attendee_names = [name.strip() for name in attendee_names if name.strip()]
+            quantity = len(attendee_names)
 
-        total_price = price * quantity
+            if quantity == 0:
+                flash("Please enter at least one attendee name.", "warning")
+                return redirect(url_for('main.view_event', event_id=event.id))
 
-        # Create booking
-        booking = Booking(
-            user_id=current_user.id,
-            event_id=event.id,
-            total_price=total_price
-        )
-        db.session.add(booking)
-        db.session.commit()
+            if ticket_type == 'General Access':
+                price = 50
+            elif ticket_type == 'Deluxe Access':
+                price = 80
+            elif ticket_type == 'V.I.P Access':
+                price = 120
+            else:
+                flash("Invalid ticket type selected.", "danger")
+                return redirect(url_for('main.view_event', event_id=event.id))
 
-        # Create tickets with attendee names
-        for name in attendee_names:
-            ticket = Ticket(
-                booking_id=booking.id,
+            total_price = price * quantity
+
+            booking = Booking(
+                user_id=current_user.id,
                 event_id=event.id,
-                price=price,
-                seat_number=None,
-                ticket_type=ticket_type,
-                attendee_name=name  
+                total_price=total_price
             )
-            db.session.add(ticket)
+            db.session.add(booking)
+            db.session.commit()
 
-        db.session.commit()
-        flash("Tickets booked successfully!", "success")
-        return redirect(url_for('main.view_tickets'))
+            for name in attendee_names:
+                ticket = Ticket(
+                    booking_id=booking.id,
+                    event_id=event.id,
+                    price=price,
+                    seat_number=None,
+                    ticket_type=ticket_type,
+                    attendee_name=name  
+                )
+                db.session.add(ticket)
 
-    return render_template('viewevent.html', event=event, login_form=login_form)
+            db.session.commit()
+            flash("Tickets booked successfully!", "success")
+            return redirect(url_for('main.view_tickets'))
+
+    # GET or after POST
+    reviews = Review.query.filter_by(event_id=event.id).order_by(Review.review_date.desc()).all()
+    return render_template('viewevent.html', event=event, login_form=login_form, reviews=reviews)
 
 
 @main_bp.route('/user', methods=['GET', 'POST'])
