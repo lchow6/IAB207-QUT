@@ -18,16 +18,24 @@ def index():
     login_form = LoginForm()
     selected_type = request.args.get('event_type')
 
+    promotions = Event.query.order_by(Event.checkin_date.desc()).limit(4).all()
+
     if selected_type:
         events = Event.query.filter_by(event_type=selected_type).order_by(Event.checkin_date.desc()).all()
     else:
-        promotions = Event.query.order_by(Event.checkin_date.desc()).limit(4).all()
+        events = Event.query.filter(Event.checkin_date >= datetime.now()).order_by(Event.checkin_date.asc()).all()
 
     event_types = db.session.query(Event.event_type).distinct().all()
     event_types = [et[0] for et in event_types]
 
-    events = Event.query.filter(Event.checkin_date >= datetime.now()).order_by(Event.checkin_date.asc()).all()
-    return render_template('index.html', login_form=login_form, promotions=promotions, events=events, event_types=event_types, selected_type=selected_type)
+    return render_template(
+        'index.html',
+        login_form=login_form,
+        promotions=promotions,
+        events=events,
+        event_types=event_types,
+        selected_type=selected_type
+    )
 
 
 
@@ -92,7 +100,7 @@ def view_event(event_id):
 
     if request.method == 'POST':
         if 'review_comment' in request.form:
-            # 🔁 Handle comment submission first
+            # comment submission Handling
             comment = request.form.get('review_comment')
             if comment.strip():
                 review = Review(
@@ -107,7 +115,7 @@ def view_event(event_id):
             return redirect(url_for('main.view_event', event_id=event.id))
 
         elif 'ticket_type' in request.form:
-            # 🧾 Handle ticket booking
+            # Handle ticket booking
             ticket_type = request.form.get('ticket_type')
             attendee_names = request.form.get('attendee_names', '').strip().split('\n')
             attendee_names = [name.strip() for name in attendee_names if name.strip()]
@@ -151,8 +159,8 @@ def view_event(event_id):
             db.session.commit()
             flash("Tickets booked successfully!", "success")
             return redirect(url_for('main.view_tickets'))
-
-    # GET or after POST
+        
+    # Fetch reviews for the event
     reviews = Review.query.filter_by(event_id=event.id).order_by(Review.review_date.desc()).all()
     return render_template('viewevent.html', event=event, login_form=login_form, reviews=reviews)
 
